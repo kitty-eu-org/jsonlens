@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jsonlens · 四种接法</title>
+    <link rel="stylesheet" href="./shared.css" />
+    <style>
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 12px;
+        margin: 18px 0 24px;
+      }
+      .card {
+        display: block;
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--card);
+        color: inherit;
+        text-decoration: none;
+        transition: border-color 0.15s, transform 0.15s;
+      }
+      .card:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      .card h2 {
+        margin: 0 0 4px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .card p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .card code {
+        font-size: 12px;
+        color: var(--accent);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        color: var(--muted);
+        font-weight: 500;
+      }
+      td code {
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body data-theme="light">
+    <header>
+      <h1>@jsonlens</h1>
+      <span class="sub">同一个内核，四种接法 —— 渲染、交互、性能完全一致</span>
+    </header>
+
+    <div class="cards">
+      <a class="card" href="./vanilla.html">
+        <h2>原生 JS</h2>
+        <p><code>createExplorer(el)</code> —— 零框架，最底层</p>
+      </a>
+      <a class="card" href="./react.html">
+        <h2>React 18</h2>
+        <p><code>&lt;JsonExplorer value={text} /&gt;</code></p>
+      </a>
+      <a class="card" href="./vue.html">
+        <h2>Vue 3</h2>
+        <p><code>&lt;JsonExplorer :value="text" /&gt;</code></p>
+      </a>
+      <a class="card" href="./element.html">
+        <h2>Web Component</h2>
+        <p><code>&lt;json-explorer src="…"&gt;</code> —— 一行标签</p>
+      </a>
+    </div>
+
+    <h2 style="font-size: 14px; margin: 0 0 4px">分层</h2>
+    <p class="sub">
+      内核只认 DOM，不认框架。框架层各自 60~120 行，只把「挂载 / 卸载 / 属性变化」翻译成
+      <code>createExplorer</code> / <code>load</code> / <code>destroy</code>。
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>包</th>
+          <th>作用</th>
+          <th>谁该用</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>@jsonlens/core</code></td>
+          <td>查看器本体 + 引擎层（零依赖）</td>
+          <td>任何场景，包括自己搭 UI</td>
+        </tr>
+        <tr>
+          <td><code>@jsonlens/react</code></td>
+          <td>React 组件（forwardRef）</td>
+          <td>React 17+</td>
+        </tr>
+        <tr>
+          <td><code>@jsonlens/vue</code></td>
+          <td>Vue 组件（render 函数，无需 SFC 编译）</td>
+          <td>Vue 3</td>
+        </tr>
+        <tr>
+          <td><code>@jsonlens/element</code></td>
+          <td><code>&lt;json-explorer&gt;</code> 自定义元素</td>
+          <td>服务端模板 / 任意框架 / 无构建</td>
+        </tr>
+        <tr>
+          <td><code>@jsonlens/svelte</code></td>
+          <td>Svelte action：<code>use:jsonExplorer</code></td>
+          <td>Svelte 3/4/5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="hint">
+      每个页面都有「小文件 / 24 MB / 展开 3 层 / 非法 JSON / 主题」几个按钮，可以横向对比同一份数据在不同接法下的表现。
+    </p>
+  </body>
+</html>

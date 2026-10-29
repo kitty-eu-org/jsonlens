@@ -1,0 +1,60 @@
+{
+  "name": "@jsonlens/core",
+  "version": "0.1.0",
+  "description": "框架无关的高性能 JSON 查看器：web-tree-sitter 懒解析 + 双轴窗口化渲染，25 MB 秒开",
+  "author": "JSONLens contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitty-eu-org/jsonlens.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/kitty-eu-org/jsonlens#readme",
+  "bugs": {
+    "url": "https://github.com/kitty-eu-org/jsonlens/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./engines": {
+      "types": "./engines.d.ts",
+      "import": "./dist/engines.js",
+      "require": "./dist/engines.cjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./tree-sitter.wasm": "./dist/tree-sitter.wasm",
+    "./tree-sitter-json.wasm": "./dist/tree-sitter-json.wasm"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "index.d.ts",
+    "engines.d.ts"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "web-tree-sitter": "^0.25.10"
+  },
+  "keywords": [
+    "json",
+    "json-viewer",
+    "tree-sitter",
+    "virtual-scroll",
+    "large-file"
+  ]
+}

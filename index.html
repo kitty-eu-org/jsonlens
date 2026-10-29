@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>web-tree-sitter · JSON Playground</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🌳</text></svg>" />
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <!-- 顶栏：状态 + 示例 -->
+  <header class="topbar">
+    <div class="brand"><span class="dot"></span>tree-sitter · JSON Playground</div>
+    <div class="stats" id="stats"></div>
+    <div class="actions">
+      <button id="openFile">打开文件…</button>
+      <button data-sample="basic">基础示例</button>
+      <button data-sample="nested">嵌套 + 中文</button>
+      <button data-sample="broken">错误 JSON</button>
+      <button data-sample="big" class="primary">生成 5000 条</button>
+      <input type="file" id="file" accept=".json,.jsonl,.txt,application/json,text/plain" hidden />
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="pane">
+      <div class="pane-head">
+        <span class="filetag" id="filename">source.json</span>
+        <span id="status"></span>
+        <span class="badge" id="modeBadge" hidden>只读预览</span>
+        <button class="mini" id="editBtn" hidden title="大文件放进编辑器要排版 1 秒左右">加载到编辑器</button>
+      </div>
+      <div class="editor" id="editor">
+        <pre class="highlight" id="highlight" aria-hidden="true"></pre>
+        <textarea id="code" spellcheck="false" wrap="off" autocomplete="off" autocapitalize="off"></textarea>
+      </div>
+      <div class="viewer" id="viewer" hidden>
+        <pre class="vhighlight" id="vhighlight" aria-hidden="true"></pre>
+      </div>
+    </section>
+
+    <section class="pane">
+      <div class="pane-head">
+        <div class="tabs">
+          <button class="tab active" data-tab="json">JSON 视图</button>
+          <button class="tab" data-tab="tree">语法树</button>
+        </div>
+        <div class="head-actions" id="jsonActions">
+          <button class="mini" id="expandAll">展开 3 层</button>
+          <button class="mini" id="collapseAll">全部折叠</button>
+        </div>
+        <span class="hint" id="paneHint">滚到底自动加载 · 点击跳转源码</span>
+      </div>
+      <div class="pane-body">
+        <div class="jsonview active" id="jsonview"></div>
+        <div class="tree" id="tree"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="legend">
+    <span><i class="sw" style="background:#0b5cad"></i>key</span>
+    <span><i class="sw" style="background:#18794e"></i>string</span>
+    <span><i class="sw" style="background:#b45309"></i>number</span>
+    <span><i class="sw" style="background:#7c3aed"></i>bool / null</span>
+    <span><i class="sw" style="background:#94a3b8"></i>punctuation</span>
+    <span><i class="sw" style="background:#c62828"></i>ERROR</span>
+    <span style="margin-left:auto">web-tree-sitter 0.25 · tree-sitter-json</span>
+  </footer>
+
+  <div id="boot"><span class="spinner"></span>正在加载 WASM 语法包…</div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

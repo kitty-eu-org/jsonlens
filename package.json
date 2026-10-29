@@ -1,0 +1,69 @@
+{
+  "name": "jsonlens-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "JSONLens：web-tree-sitter 驱动的超大 JSON 查看器（库 + playground + 多框架示例）",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitty-eu-org/jsonlens.git"
+  },
+  "homepage": "https://github.com/kitty-eu-org/jsonlens#readme",
+  "bugs": {
+    "url": "https://github.com/kitty-eu-org/jsonlens/issues"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "dev:examples": "vite --config examples/vite.config.js",
+    "build:core": "npm run build -w @jsonlens/core",
+    "build:pkgs": "node scripts/build-wrappers.mjs",
+    "build:demo": "npm run build:core && vite build",
+    "build:examples": "npm run build:core && npm run build:pkgs && vite build --config examples/vite.config.js",
+    "build": "npm run build:core && npm run build:pkgs && vite build && vite build --config examples/vite.config.js",
+    "smoke": "node scripts/smoke.mjs",
+    "typecheck": "tsc -p tsconfig.types.json",
+    "check:edit": "node scripts/check-applyedit.mjs",
+    "check": "npm run typecheck && npm run check:edit && npm run check:mem && npm run pack:check",
+    "bench": "node bench/run.mjs",
+    "preview": "vite preview --port 5181",
+    "pack:check": "node scripts/pack-check.mjs",
+    "publish:core": "npm publish -w @jsonlens/core",
+    "check:mem": "node --expose-gc scripts/check-memory.mjs"
+  },
+  "dependencies": {
+    "@jsonlens/core": "*",
+    "@jsonlens/element": "*",
+    "@jsonlens/react": "*",
+    "@jsonlens/svelte": "*",
+    "@jsonlens/vue": "*",
+    "web-tree-sitter": "0.25.10"
+  },
+  "devDependencies": {
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@mui/material": "6.5.0",
+    "@textea/json-viewer": "4.0.1",
+    "@types/react": "^18.3.12",
+    "@uiw/react-json-view": "2.0.0-alpha.44",
+    "json-formatter-js": "2.5.23",
+    "jsoneditor": "10.4.3",
+    "playwright-core": "1.64.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "^5.7.3",
+    "vite": "8.3.5",
+    "vue": "3.5.44",
+    "vue-json-pretty": "2.6.0"
+  },
+  "keywords": [
+    "tree-sitter",
+    "wasm",
+    "json",
+    "json-viewer",
+    "syntax-highlight"
+  ]
+}

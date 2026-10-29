@@ -1,0 +1,39 @@
+# ---- 依赖 ----
+node_modules/
+.pnpm-store/
+
+# ---- 构建产物 ----
+# 五份代码 + 两处 demo 站点全部是构建出来的，不进仓库。
+# 别人 clone 之后跑 `npm install && npm run build` 就有了。
+dist/
+dist-examples/
+packages/*/dist/
+bench/dist/
+*.tsbuildinfo
+
+# ---- 大体积测试数据（bench/public/data 合计 27 MB，其中 big.json 单个 25 MB）----
+# 由 bench/run.mjs 现场生成，不进仓库，否则 clone 一次要拉 25 MB 垃圾。
+bench/public/data/*.json
+bench/data/*.json
+bench/result.json
+
+# 用户自己丢进来的大文件
+*.large.json
+
+# ---- 本地环境 ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log
+npm-debug.log*
+.npmrc.local
+
+# 发布用的临时 tarball
+*.tgz
+
+# ---- 测试 / 截图产物 ----
+test-results/
+playwright-report/
+.tmp/

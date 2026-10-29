@@ -1,0 +1,42 @@
+{
+  "name": "@jsonlens/element",
+  "version": "0.1.0",
+  "description": "@jsonlens/element —— <json-explorer> 自定义元素，任何框架/原生可用",
+  "author": "JSONLens contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitty-eu-org/jsonlens.git",
+    "directory": "packages/element"
+  },
+  "homepage": "https://github.com/kitty-eu-org/jsonlens#readme",
+  "bugs": {
+    "url": "https://github.com/kitty-eu-org/jsonlens/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-wrappers.mjs element",
+    "prepublishOnly": "node ../../scripts/build-wrappers.mjs element"
+  },
+  "dependencies": {
+    "@jsonlens/core": "^0.1.0"
+  }
+}

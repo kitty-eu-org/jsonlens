@@ -1,0 +1,396 @@
+/**
+ * @jsonlens/core 的样式。
+ *
+ * 两条规矩：
+ *   1. 所有选择器都以 .jl-root 打头，**不污染宿主页面**。
+ *      引擎内部用的是 .hl-window / .tk-key / .jrow 这些通用名字，所以必须加祖先作用域，
+ *      否则会和业务代码里的 .row / .hl 撞车。
+ *   2. 尺寸全部走 CSS 变量，宿主可以覆盖；深色主题用 [data-jl-theme="dark"] 切换。
+ *
+ * 引擎和 CSS 有一处硬耦合：行高必须是 20px，且等宽字体。
+ * highlight.js 里的 LINE_HEIGHT = 20 和横向窗口化的列宽换算都依赖它。
+ */
+
+.jl-root {
+  --jl-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --jl-panel: #ffffff;
+  --jl-panel-2: #fafbfc;
+  --jl-border: #e3e6ea;
+  --jl-text: #1f2328;
+  --jl-muted: #6b7280;
+  --jl-faint: #9aa3ad;
+  --jl-accent: #2f6feb;
+  --jl-accent-soft: #e8f0fe;
+  --jl-hover: #f2f6ff;
+  --jl-tk-key: #0b5cad;
+  --jl-tk-string: #18794e;
+  --jl-tk-number: #b45309;
+  --jl-tk-bool: #7c3aed;
+  --jl-tk-punct: #94a3b8;
+  --jl-tk-error: #c62828;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* 高度只由宿主决定，这里**不能**写 height: 100%。
+     宿主最常见的写法是把 height 设在同一个元素上（`<div id=host style="height:600px">`），
+     我们再写一条 height: 100% 就会把它的值盖掉 —— 百分比相对 body 的 auto 高度解析成 auto，
+     结果整个组件按内容撑开：滚动容器 clientHeight 变成几万像素，
+     「虚拟滚动」退化成「全量渲染」，24 MB 直接卡 5 秒。 */
+  min-height: 200px;
+  overflow: hidden;
+  color: var(--jl-text);
+  background: var(--jl-panel);
+  border: 1px solid var(--jl-border);
+  border-radius: 10px;
+  font: 13px/20px var(--jl-mono);
+  box-sizing: border-box;
+}
+.jl-root *,
+.jl-root *::before,
+.jl-root *::after {
+  box-sizing: border-box;
+}
+
+/* 自定义元素默认 display: inline，撑不开；提前定成和 .jl-root 一致的纵向 flex，
+   避免 upgrade 前的布局跳动 */
+json-explorer {
+  display: flex;
+  flex-direction: column;
+}
+
+.jl-root[data-jl-theme="dark"] {
+  --jl-panel: #16181d;
+  --jl-panel-2: #1c1f26;
+  --jl-border: #2b2f38;
+  --jl-text: #e6e8ec;
+  --jl-muted: #9aa3ad;
+  --jl-faint: #6b7280;
+  --jl-accent: #5b8def;
+  --jl-accent-soft: #1e2a44;
+  --jl-hover: #1e222b;
+  --jl-tk-key: #79b8ff;
+  --jl-tk-string: #7ee2a8;
+  --jl-tk-number: #ffab70;
+  --jl-tk-bool: #d2a8ff;
+  --jl-tk-punct: #6b7280;
+  --jl-tk-error: #ff7b72;
+}
+@media (prefers-color-scheme: dark) {
+  .jl-root[data-jl-theme="auto"] {
+    --jl-panel: #16181d;
+    --jl-panel-2: #1c1f26;
+    --jl-border: #2b2f38;
+    --jl-text: #e6e8ec;
+    --jl-muted: #9aa3ad;
+    --jl-faint: #6b7280;
+    --jl-accent: #5b8def;
+    --jl-accent-soft: #1e2a44;
+    --jl-hover: #1e222b;
+    --jl-tk-key: #79b8ff;
+    --jl-tk-string: #7ee2a8;
+    --jl-tk-number: #ffab70;
+    --jl-tk-bool: #d2a8ff;
+    --jl-tk-punct: #6b7280;
+    --jl-tk-error: #ff7b72;
+  }
+}
+
+/* ---------- 布局 ---------- */
+.jl-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
+  /* 宿主给了高度就铺满，没给就按内容走（min-height 兜底） */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+@media (max-width: 720px) {
+  .jl-split {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+.jl-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.jl-source {
+  border-right: 1px solid var(--jl-border);
+}
+@media (max-width: 720px) {
+  .jl-source {
+    border-right: 0;
+    border-bottom: 1px solid var(--jl-border);
+  }
+}
+.jl-bar {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  overflow: hidden;
+  background: var(--jl-panel-2);
+  border-bottom: 1px solid var(--jl-border);
+  font: 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  white-space: nowrap;
+}
+.jl-title {
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+}
+.jl-meta,
+.jl-hint {
+  color: var(--jl-faint);
+}
+.jl-hint {
+  margin-left: auto;
+  font-size: 11.5px;
+}
+.jl-tabs {
+  display: flex;
+  gap: 2px;
+}
+.jl-tab,
+.jl-btn {
+  padding: 4px 8px;
+  color: var(--jl-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  font: inherit;
+  cursor: pointer;
+}
+.jl-tab:hover,
+.jl-btn:hover {
+  color: var(--jl-text);
+  background: var(--jl-hover);
+}
+.jl-tab.is-active {
+  color: var(--jl-accent);
+  background: var(--jl-accent-soft);
+}
+.jl-actions {
+  display: flex;
+  gap: 2px;
+}
+.jl-btn {
+  border: 1px solid var(--jl-border);
+  font-size: 11.5px;
+}
+
+/* ---------- 左侧源码 ---------- */
+.jl-scroll {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  outline: none;
+}
+.jl-pre {
+  position: relative;
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--jl-text);
+  font: inherit;
+  counter-reset: none;
+  overflow: hidden;
+  background: transparent;
+}
+.jl-root .hl-window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: pre;
+  will-change: transform;
+}
+.jl-root .hl {
+  background: rgba(47, 111, 235, 0.13);
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(47, 111, 235, 0.22);
+}
+.jl-root[data-jl-theme="dark"] .hl {
+  background: rgba(91, 141, 239, 0.22);
+  box-shadow: 0 0 0 1px rgba(91, 141, 239, 0.35);
+}
+
+/* ---------- 语法着色 ---------- */
+.jl-root .tk-key {
+  color: var(--jl-tk-key);
+}
+.jl-root .tk-string {
+  color: var(--jl-tk-string);
+}
+.jl-root .tk-number {
+  color: var(--jl-tk-number);
+}
+.jl-root .tk-bool,
+.jl-root .tk-null {
+  color: var(--jl-tk-bool);
+}
+.jl-root .tk-punct {
+  color: var(--jl-tk-punct);
+}
+.jl-root .tk-error {
+  background: rgba(198, 40, 40, 0.08);
+  color: var(--jl-tk-error);
+  text-decoration: underline wavy var(--jl-tk-error);
+  text-decoration-skip-ink: none;
+}
+
+/* ---------- 右侧面板 ---------- */
+.jl-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.jl-json,
+.jl-tree {
+  position: absolute;
+  inset: 0;
+  display: none;
+  padding: 6px 0 12px;
+  overflow: auto;
+  font: inherit;
+}
+.jl-json.is-active,
+.jl-tree.is-active {
+  display: block;
+}
+
+/* ---------- JSON 视图 ---------- */
+.jl-root .jrow {
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+  height: 20px;
+  padding-right: 8px;
+  font: inherit;
+  line-height: 20px;
+  white-space: pre;
+  cursor: default;
+}
+.jl-root .jrow:hover {
+  background: var(--jl-hover);
+}
+.jl-root .jtwist {
+  flex: 0 0 12px;
+  width: 12px;
+  color: var(--jl-faint);
+  text-align: center;
+  user-select: none;
+}
+.jl-root .jtwist[data-toggle] {
+  cursor: pointer;
+}
+.jl-root .jtwist[data-toggle]:hover {
+  color: var(--jl-accent);
+}
+.jl-root .jkey {
+  color: var(--jl-tk-key);
+}
+.jl-root .jidx {
+  color: var(--jl-faint);
+  font-size: 11.5px;
+}
+.jl-root .jcolon {
+  color: var(--jl-tk-punct);
+}
+.jl-root .jbrace {
+  color: #7b8794;
+}
+.jl-root .jcount {
+  padding: 0 4px;
+  color: var(--jl-faint);
+  background: var(--jl-panel-2);
+  border-radius: 4px;
+  font-size: 11px;
+}
+.jl-root .jstr {
+  color: var(--jl-tk-string);
+}
+.jl-root .jnum {
+  color: var(--jl-tk-number);
+}
+.jl-root .jbool,
+.jl-root .jnull {
+  color: var(--jl-tk-bool);
+}
+.jl-root .jother {
+  color: var(--jl-text);
+}
+.jl-root .jerr {
+  color: var(--jl-tk-error);
+}
+.jl-root .jmore {
+  padding: 4px 0 8px;
+  color: var(--jl-faint);
+  font-size: 11.5px;
+  pointer-events: none;
+  user-select: none;
+}
+.jl-root .jmore.jbudget {
+  color: var(--jl-tk-error);
+  font-size: 12px;
+}
+.jl-root .jempty {
+  padding: 12px;
+  color: var(--jl-faint);
+}
+
+/* ---------- 语法树 ---------- */
+.jl-tree .row {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  height: 20px;
+  padding-right: 8px;
+  line-height: 20px;
+  white-space: pre;
+  cursor: default;
+}
+.jl-tree .row:hover {
+  background: var(--jl-hover);
+}
+.jl-tree .row.active {
+  background: var(--jl-accent-soft);
+  box-shadow: inset 2px 0 0 var(--jl-accent);
+}
+.jl-tree .twist {
+  flex: 0 0 12px;
+  color: var(--jl-faint);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+/* 语法树的折叠：treeview.js 点 twist 时给 .children 加这个 class。
+   之前漏了这条规则 —— 箭头会变、class 也加上了，但内容纹丝不动，
+   等于「折叠按钮点了没反应」。老 playground 的样式里有，迁到库里时丢了。 */
+.jl-tree .children.collapsed {
+  display: none;
+}
+.jl-tree .field {
+  color: var(--jl-tk-key);
+}
+.jl-tree .type {
+  color: var(--jl-text);
+}
+.jl-tree .type.anon {
+  color: var(--jl-faint);
+}
+.jl-tree .type.err {
+  color: var(--jl-tk-error);
+  font-weight: 600;
+}
+.jl-tree .range,
+.jl-tree .sub {
+  color: var(--jl-faint);
+  font-size: 11px;
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jsonlens · Web Component</title>
+    <style>
+      /* 自定义元素没有默认高度，宿主必须给一个 —— 和原生 <div> 一样 */
+      json-explorer {
+        height: calc(100vh - 170px);
+        min-height: 420px;
+      }
+      body {
+        padding: 20px 24px 40px;
+      }
+    </style>
+  </head>
+  <body data-theme="light">
+    <header>
+      <h1>&lt;json-explorer&gt;</h1>
+      <span class="sub">自定义元素 · 一行标签 · 不挑框架和构建工具</span>
+    </header>
+
+    <div class="toolbar">
+      <button id="huge" class="primary">载入 24 MB</button>
+      <button id="theme">主题</button>
+      <output id="out"></output>
+    </div>
+
+    <!-- 这一行就是全部：src 让组件自己 fetch，theme 跟着属性走 -->
+    <json-explorer
+      id="viewer"
+      src="./sample.json"
+      title="sample.json"
+      theme="light"
+      expand-depth="2"
+    ></json-explorer>
+
+    <p class="hint">
+      事件是冒泡的 CustomEvent：<code>document.addEventListener('stats', …)</code>、
+      <code>'select'</code>、<code>'hover'</code>、<code>'loaderror'</code>。
+      注意别把大段 JSON 塞进 <code>value</code> 属性 —— 用 <code>src</code> 或 <code>el.load(text)</code>。
+    </p>
+
+    <script type="module" src="./element.js"></script>
+  </body>
+</html>

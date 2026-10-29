@@ -1,0 +1,45 @@
+{
+  "name": "@jsonlens/vue",
+  "version": "0.1.0",
+  "description": "@jsonlens/vue —— JsonExplorer Vue 3 组件",
+  "author": "JSONLens contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitty-eu-org/jsonlens.git",
+    "directory": "packages/vue"
+  },
+  "homepage": "https://github.com/kitty-eu-org/jsonlens#readme",
+  "bugs": {
+    "url": "https://github.com/kitty-eu-org/jsonlens/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-wrappers.mjs vue",
+    "prepublishOnly": "node ../../scripts/build-wrappers.mjs vue"
+  },
+  "dependencies": {
+    "@jsonlens/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0"
+  }
+}

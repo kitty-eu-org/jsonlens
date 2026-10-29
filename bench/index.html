@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>JSON viewer benchmark</title>
+  <style>
+    :root { color-scheme: light; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+      color: #1f2328;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    #bar {
+      flex: 0 0 auto;
+      padding: 6px 12px;
+      border-bottom: 1px solid #e3e6ea;
+      font: 12px/1.6 ui-monospace, Menlo, monospace;
+      color: #57606a;
+      display: flex;
+      gap: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    #root {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      position: relative;
+    }
+    /* 我们自己的双栏布局 */
+    .ours-split { display: flex; height: 100%; }
+    .ours-code {
+      flex: 1 1 50%;
+      min-width: 0;
+      overflow: auto;
+      position: relative;
+      border-right: 1px solid #e3e6ea;
+      background: #fff;
+    }
+    /* 和真实页面一致：高亮层绝对定位、尺寸由 JS 算，窗口靠 transform 移动 */
+    .ours-code .vhighlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      font: 13px/20px ui-monospace, Menlo, monospace;
+      white-space: pre;
+      color: #1f2328;
+    }
+    .hl-window {
+      position: absolute;
+      top: 0;
+      left: 0;
+      white-space: pre;
+      will-change: transform;
+    }
+    .ours-json {
+      flex: 1 1 50%;
+      min-width: 0;
+      overflow: auto;
+      font: 12.5px/1.8 ui-monospace, Menlo, monospace;
+      padding: 6px 0 24px;
+    }
+    /* JsonView 依赖的类（从 style.css 摘出来，避免引整份样式影响布局） */
+    .jrow { display: flex; align-items: baseline; gap: 5px; padding-right: 12px; white-space: pre; }
+    .jtwist { width: 12px; flex: 0 0 12px; cursor: pointer; color: #9aa3ad; user-select: none; }
+    .jchildren { display: block; }
+    .jkey { color: #0b5cad; }
+    .jstring { color: #18794e; }
+    .jnum { color: #b45309; }
+    .jbool { color: #7c3aed; }
+    .jnull { color: #7c3aed; }
+    .jcolon { color: #94a3b8; }
+    .jbrace { color: #94a3b8; }
+    .jcount { color: #9aa3ad; font-size: 11px; }
+    .jidx { color: #9aa3ad; }
+    .jmore { color: #9aa3ad; font-size: 11.5px; padding: 4px 0 8px; pointer-events: none; }
+    .jerr { color: #c62828; }
+    /* 高亮 token */
+    .tk-key { color: #0b5cad; }
+    .tk-string { color: #18794e; }
+    .tk-number { color: #b45309; }
+    .tk-bool, .tk-null { color: #7c3aed; }
+    .tk-punct { color: #94a3b8; }
+    .tk-error { color: #c62828; }
+  </style>
+</head>
+<body>
+  <div id="bar">准备中…</div>
+  <div id="root"></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

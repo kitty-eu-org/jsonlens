@@ -1,0 +1,45 @@
+{
+  "name": "@jsonlens/react",
+  "version": "0.1.0",
+  "description": "@jsonlens/react —— JsonExplorer React 组件",
+  "author": "JSONLens contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitty-eu-org/jsonlens.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/kitty-eu-org/jsonlens#readme",
+  "bugs": {
+    "url": "https://github.com/kitty-eu-org/jsonlens/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-wrappers.mjs react",
+    "prepublishOnly": "node ../../scripts/build-wrappers.mjs react"
+  },
+  "dependencies": {
+    "@jsonlens/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  }
+}

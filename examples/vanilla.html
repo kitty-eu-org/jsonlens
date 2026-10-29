@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jsonlens · 原生 / 任意框架</title>
+    <link rel="stylesheet" href="./shared.css" />
+  </head>
+  <body data-theme="light">
+    <header>
+      <h1>原生 JS</h1>
+      <span class="sub"><code>createExplorer(el, options)</code> · 零框架依赖</span>
+    </header>
+
+    <div class="toolbar">
+      <button id="small">小文件（20 KB）</button>
+      <button id="huge" class="primary">载入 24 MB</button>
+      <button id="expand">展开 3 层</button>
+      <button id="collapse">全部折叠</button>
+      <button id="broken">非法 JSON</button>
+      <button id="theme">主题</button>
+      <output id="out"></output>
+    </div>
+
+    <div class="host" id="host"></div>
+
+    <p class="hint">
+      这就是 core 的全部用法：一个 DOM 元素 + 一个工厂函数。React / Vue / Svelte / Web Component
+      都是在它外面套一层壳，所以行为、性能、交互完全一致。
+    </p>
+
+    <script type="module" src="./vanilla.js"></script>
+  </body>
+</html>
