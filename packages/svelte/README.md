@@ -1,11 +1,18 @@
 # jsonlens-svelte
 
-[`jsonlens`](https://www.npmjs.com/package/jsonlens) 的 Svelte action，50 行。
-**零运行时依赖** —— 这个包不 import `svelte`，也不需要 Svelte 的预处理器。
+[![npm version](https://img.shields.io/npm/v/jsonlens-svelte.svg)](https://www.npmjs.com/package/jsonlens-svelte)
+
+Svelte action for [jsonlens](https://github.com/kitty-eu-org/jsonlens), a JSON viewer built for very large documents.
+
+This package does not import `svelte`. It is a plain action with no runtime dependency beyond `jsonlens`.
+
+## Install
 
 ```bash
-npm i jsonlens-svelte
+npm install jsonlens-svelte
 ```
+
+## Usage
 
 ```svelte
 <script>
@@ -13,32 +20,51 @@ npm i jsonlens-svelte
   import { jsonExplorer } from 'jsonlens-svelte';
 
   let text = '';
-  let stats;
 </script>
 
 <div
-  use:jsonExplorer={{ value: text, theme: 'light', expandDepth: 2, onStats: (s) => (stats = s) }}
+  use:jsonExplorer={{ value: text, theme: 'light', onSelect: (r) => console.log(r) }}
   style="height: 600px"
 ></div>
 ```
 
-## 参数
+The host element needs a height.
 
-`value` `theme` `defaultTab` `title` `expandDepth` `chunkThreshold` `wasmUrl` `showTabs` `showActions`
-`onHover` `onSelect` `onStats` `onReady` `onError`
+## Parameters
 
-`value` 变化会重新 `load()`，`theme` / `defaultTab` 变化会调对应的 imperative API。
-`wasmUrl` / `chunkThreshold` / `title` 只在创建时生效（改它们等于重建实例，代价太大）。
-需要命令式 API（`expandTo` / `reveal` / `stats`）时，action 的返回值上就有：
+| Parameter | Description |
+| --- | --- |
+| `value` | JSON text. Re-loads when it changes. |
+| `theme` | `'light' \| 'dark' \| 'auto'`, default `'light'` |
+| `defaultTab` | `'json' \| 'tree'`, default `'json'` |
+| `title` | file name in the header |
+| `onHover` / `onSelect` | `(range: { start, end } \| null) => void` |
+| `onStats` | `(stats) => void` |
+| `onReady` | `(explorer) => void` |
+| `onError` | `(err: Error) => void`, fired when wasm fails to load |
+
+Any other `ExplorerOptions` field (`expandDepth`, `chunkThreshold`, `wasmUrl`, `showTabs`, `showActions`) is forwarded to the underlying viewer and read on creation.
+
+## Imperative API
+
+The action returns an object whose `api` member is the `Explorer` instance:
 
 ```js
-const action = jsonExplorer(node, { value });
+const action = jsonExplorer(node, { value: text });
 action.api.expandTo(3);
+action.api.reveal({ start: 1024, end: 1088 });
 ```
 
-## 两个必须知道的点
+## Notes
 
-1. **样式要显式引入**：`import 'jsonlens-svelte/style.css'`（lib 模式 CSS 被抽走，JS 里不留引用）。
-2. **宿主必须给高度**，组件不猜。
+- **Import the stylesheet separately.** Vite's library mode extracts CSS out of the JS bundle, so the action does not bring styles with it.
+- **`wasmUrl` in a bundler.** The default relies on `import.meta.url` and breaks once the package is inlined into an app bundle. Pass it explicitly:
+
+  ```js
+  import runtime from 'jsonlens/tree-sitter.wasm?url';
+  import language from 'jsonlens/tree-sitter-json.wasm?url';
+  ```
+
+## License
 
 MIT

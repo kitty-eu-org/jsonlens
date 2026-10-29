@@ -1,13 +1,18 @@
 # jsonlens-vue
 
-[`jsonlens`](https://www.npmjs.com/package/jsonlens) 的 Vue 3 封装，78 行。
-用 tree-sitter 分块懒解析 + 双轴窗口化渲染，24 MB JSON 141 ms 打开。
+[![npm version](https://img.shields.io/npm/v/jsonlens-vue.svg)](https://www.npmjs.com/package/jsonlens-vue)
 
-用 render 函数实现，**不需要 Vue 的 SFC 编译插件**，纯 ESM 即可。
+Vue 3 binding for [jsonlens](https://github.com/kitty-eu-org/jsonlens), a JSON viewer built for very large documents.
+
+## Install
 
 ```bash
-npm i jsonlens-vue
+npm install jsonlens-vue
 ```
+
+`jsonlens` is installed as a dependency. Vue 3 is expected as a peer.
+
+## Usage
 
 ```vue
 <script setup>
@@ -16,35 +21,52 @@ import { JsonExplorer } from 'jsonlens-vue';
 import { ref } from 'vue';
 
 const text = ref('');
-const viewer = ref(null);
-const stats = ref(null);
 </script>
 
 <template>
-  <button @click="viewer?.expandTo(3)">展开 3 层</button>
-  <JsonExplorer
-    ref="viewer"
-    :value="text"
-    theme="light"
-    :expand-depth="2"
-    style="height: 600px"
-    @stats="stats = $event"
-  />
+  <JsonExplorer :value="text" theme="light" @stats="onStats" style="height: 600px" />
 </template>
 ```
 
-## props / emits
+The host element needs a height.
 
-props：`value` `theme` `defaultTab` `title` `expandDepth` `chunkThreshold` `wasmUrl` `showTabs` `showActions`
+## Props
 
-emits：`hover` `select` `stats` `ready` `error` —— 用 `@stats="fn"` 这类声明式写法监听。
+`value` · `theme` · `defaultTab` · `title` · `expandDepth` · `chunkThreshold` · `wasmUrl` · `showTabs` · `showActions`
 
-组件 `ref` 上是：`load` `expandTo` `collapseAll` `setTab` `setTheme` `reveal` `scrollToLine` `destroy`，
-以及 `stats` / `text` / `instance`。
+Same names and defaults as the `ExplorerOptions` of `jsonlens`. `wasmUrl`, `chunkThreshold` and `title` are read on mount only.
 
-## 两个必须知道的点
+## Emits
 
-1. **样式要显式引入**：`import 'jsonlens-vue/style.css'`。Vite 的 lib 模式会把 CSS 抽成独立文件、JS 里不留引用。
-2. **宿主必须给高度**，组件不猜。`wasmUrl` 在打包环境里建议显式传，详见 core 的 README。
+`hover` · `select` · `stats` · `ready` · `error`
+
+```vue
+<JsonExplorer :value="text" @hover="onHover" @error="onError" />
+```
+
+## Template ref
+
+`load` · `expandTo` · `collapseAll` · `setTab` · `setTheme` · `reveal` · `scrollToLine` · `destroy`, plus `stats`, `text` and `instance`.
+
+```js
+const viewer = ref(null);
+viewer.value.expandTo(3);
+```
+
+## Notes
+
+- **Import the stylesheet separately.** Vite's library mode extracts CSS out of the JS bundle, so importing the component does not bring styles with it.
+- **`wasmUrl` in a bundler.** The default relies on `import.meta.url` and breaks once the package is inlined into an app bundle. Pass it explicitly:
+
+  ```js
+  import runtime from 'jsonlens/tree-sitter.wasm?url';
+  import language from 'jsonlens/tree-sitter-json.wasm?url';
+  ```
+
+  ```vue
+  <JsonExplorer :value="text" :wasm-url="{ runtime, language }" />
+  ```
+
+## License
 
 MIT

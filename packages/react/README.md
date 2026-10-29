@@ -1,56 +1,76 @@
 # jsonlens-react
 
-[`jsonlens`](https://www.npmjs.com/package/jsonlens) 的 React 封装，83 行。
-用 tree-sitter 分块懒解析 + 双轴窗口化渲染，24 MB JSON 141 ms 打开。
+[![npm version](https://img.shields.io/npm/v/jsonlens-react.svg)](https://www.npmjs.com/package/jsonlens-react)
 
-> 渲染、虚拟滚动、懒解析全在 core 里，这个包只做「挂载 / 卸载 / 属性变化」的桥接。
+React binding for [jsonlens](https://github.com/kitty-eu-org/jsonlens), a JSON viewer built for very large documents.
+
+## Install
 
 ```bash
-npm i jsonlens-react
+npm install jsonlens-react
 ```
+
+`jsonlens` is installed as a dependency. React 17 or newer is expected as a peer.
+
+## Usage
 
 ```jsx
 import 'jsonlens-react/style.css';
 import { JsonExplorer } from 'jsonlens-react';
 
-function App() {
-  const ref = useRef(null);
-  const [stats, setStats] = useState(null);
-
-  return (
-    <>
-      <button onClick={() => ref.current?.expandTo(3)}>展开 3 层</button>
-      <div style={{ height: 600 }}>
-        <JsonExplorer ref={ref} value={text} theme="light" expandDepth={2} onStats={setStats} />
-      </div>
-    </>
-  );
-}
+<JsonExplorer
+  value={text}
+  theme="light"
+  expandDepth={2}
+  onStats={setStats}
+  style={{ height: 600 }}
+/>
 ```
 
-## props
+The host element needs a height. `style` and `className` are forwarded to it.
 
-| prop | 默认 | 说明 |
+## Props
+
+| Prop | Default | Description |
 | --- | --- | --- |
-| `value` | — | JSON 文本，变了就重新载入 |
+| `value` | — | JSON text. Re-loads when it changes. |
 | `theme` | `'light'` | `'light' \| 'dark' \| 'auto'` |
 | `defaultTab` | `'json'` | `'json' \| 'tree'` |
-| `title` | `'source.json'` | 左上角文件名 |
-| `expandDepth` | `0` | 载入后展开到第几层 |
-| `chunkThreshold` | `64000` | 超过多少字符走分块 |
-| `wasmUrl` | — | **生产环境请显式传**，见下 |
-| `showTabs` / `showActions` | `true` | 藏掉自带工具栏 |
-| `onHover` / `onSelect` | — | `(range: {start,end} \| null)` |
-| `onStats` / `onReady` | — | 统计 / 拿到命令式实例 |
-| `onError` | — | wasm 初始化失败时回调（不传也不会产生未处理的拒绝） |
+| `title` | `'source.json'` | file name in the header |
+| `expandDepth` | `0` | auto-expand depth |
+| `chunkThreshold` | `64000` | characters above which chunked parsing is used |
+| `wasmUrl` | — | pass explicitly in production, see below |
+| `showTabs` / `showActions` | `true` | hide the built-in toolbar |
+| `onHover` / `onSelect` | — | `(range: { start, end } \| null) => void` |
+| `onStats` | — | `(stats) => void` |
+| `onReady` | — | `(explorer) => void` |
+| `onError` | — | `(err: Error) => void`, fired when wasm fails to load |
 
-`ref` 上是：`load` `expandTo` `collapseAll` `setTab` `setTheme` `reveal` `scrollToLine` `destroy`，
-以及 `stats` / `text` / `instance`。
+`wasmUrl`, `chunkThreshold` and `title` are read on mount only.
 
-## 两个必须知道的点
+## Ref
 
-1. **样式要显式引入**：`import 'jsonlens-react/style.css'`。Vite 的 lib 模式会把 CSS 抽成独立文件、JS 里不留引用，所以 import 组件不会自动带样式。
-2. **宿主必须给高度**，组件不猜。`wasmUrl` 在打包环境里建议用
-   `import rt from 'jsonlens/tree-sitter.wasm?url'` 的方式传入，详见 core 的 README。
+| Member | Description |
+| --- | --- |
+| `expandTo(depth)` / `collapseAll()` | expand / collapse |
+| `setTab(tab)` / `setTheme(theme)` | switch panel or theme |
+| `reveal(range)` / `scrollToLine(line, opts)` | scroll to a source range or line |
+| `load(text, opts)` / `destroy()` | imperative load / teardown |
+| `stats` / `text` | current state |
+| `instance` | the underlying `Explorer` from `jsonlens` |
+
+## Notes
+
+- **Import the stylesheet separately.** Vite's library mode extracts CSS out of the JS bundle, so importing the component does not bring styles with it.
+- **`wasmUrl` in a bundler.** The default relies on `import.meta.url` and breaks once the package is inlined into an app bundle. Pass it explicitly:
+
+  ```js
+  import runtime from 'jsonlens/tree-sitter.wasm?url';
+  import language from 'jsonlens/tree-sitter-json.wasm?url';
+
+  <JsonExplorer value={text} wasmUrl={{ runtime, language }} />
+  ```
+
+## License
 
 MIT
