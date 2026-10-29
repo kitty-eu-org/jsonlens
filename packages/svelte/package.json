@@ -1,7 +1,7 @@
 {
-  "name": "@jsonlens/svelte",
+  "name": "jsonlens-svelte",
   "version": "0.1.0",
-  "description": "@jsonlens/svelte —— JsonExplorer 的 Svelte action",
+  "description": "jsonlens-svelte —— JsonExplorer 的 Svelte action",
   "author": "JSONLens contributors",
   "license": "MIT",
   "repository": {
@@ -37,6 +37,6 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs svelte"
   },
   "dependencies": {
-    "@jsonlens/core": "^0.1.0"
+    "jsonlens": "^0.1.0"
   }
 }

@@ -1,4 +1,4 @@
-import type { Explorer, ExplorerOptions, ExplorerStats, Range } from '@jsonlens/core';
+import type { Explorer, ExplorerOptions, ExplorerStats, Range } from 'jsonlens';
 
 export interface JsonExplorerActionParams
   extends Pick<

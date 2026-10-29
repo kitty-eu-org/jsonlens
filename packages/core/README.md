@@ -1,15 +1,15 @@
-# @jsonlens/core
+# jsonlens
 
 框架无关的高性能 JSON 查看器：**tree-sitter 分块懒解析 + 双轴窗口化渲染**。
 24 MB / 153 万行的文件 141 ms 打开，DOM 只有 2 790 个节点。
 
 ```bash
-npm i @jsonlens/core web-tree-sitter
+npm i jsonlens web-tree-sitter
 ```
 
 ```js
-import '@jsonlens/core/style.css';
-import { createExplorer } from '@jsonlens/core';
+import 'jsonlens/style.css';
+import { createExplorer } from 'jsonlens';
 
 const viewer = createExplorer(document.getElementById('host'), { theme: 'light' });
 await viewer.load(jsonText, { title: 'data.json' });
@@ -29,8 +29,8 @@ await viewer.load(jsonText, { title: 'data.json' });
 createExplorer(el, { wasmUrl: '/wasm/' });
 
 // 或者打包器的资源导入（Vite / webpack5）
-import runtime from '@jsonlens/core/tree-sitter.wasm?url';
-import language from '@jsonlens/core/tree-sitter-json.wasm?url';
+import runtime from 'jsonlens/tree-sitter.wasm?url';
+import language from 'jsonlens/tree-sitter-json.wasm?url';
 createExplorer(el, { wasmUrl: { runtime, language } });
 ```
 
@@ -42,7 +42,7 @@ createExplorer(el, { wasmUrl: { runtime, language } });
 想先接住错误就监听 `api.on('error', fn)`。
 
 > 如果用 Vite 的 lib 模式自己再打包，CSS 会被抽成独立文件、JS 里不留引用，
-> 记得让使用者 `import '@jsonlens/core/style.css'`。
+> 记得让使用者 `import 'jsonlens/style.css'`。
 
 ## API
 
@@ -63,10 +63,10 @@ createExplorer(el, {
 
 ## 引擎层
 
-想自己搭 UI 就用 `@jsonlens/core/engines`：
+想自己搭 UI 就用 `jsonlens/engines`：
 
 ```js
-import { ChunkedDoc, Highlighter, JsonView, CHUNK_THRESHOLD } from '@jsonlens/core/engines';
+import { ChunkedDoc, Highlighter, JsonView, CHUNK_THRESHOLD } from 'jsonlens/engines';
 ```
 
 `ChunkedDoc`（分块 + 鸭子类型虚拟树）、`Highlighter`（双轴窗口化）、
@@ -76,10 +76,10 @@ import { ChunkedDoc, Highlighter, JsonView, CHUNK_THRESHOLD } from '@jsonlens/co
 
 | 包 | 用法 |
 | --- | --- |
-| `@jsonlens/react` | `<JsonExplorer value={text} />` |
-| `@jsonlens/vue` | `<JsonExplorer :value="text" />` |
-| `@jsonlens/element` | `<json-explorer src="…">` |
-| `@jsonlens/svelte` | `use:jsonExplorer` |
+| `jsonlens-react` | `<JsonExplorer value={text} />` |
+| `jsonlens-vue` | `<JsonExplorer :value="text" />` |
+| `jsonlens-element` | `<json-explorer src="…">` |
+| `jsonlens-svelte` | `use:jsonExplorer` |
 
 完整文档（性能博弈、和主流库的对比、已知限制）见仓库 README。
 

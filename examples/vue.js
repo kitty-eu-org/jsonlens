@@ -5,10 +5,10 @@
  * 一个纯 JS 包就能用。
  */
 import { createApp, h, ref, onMounted } from 'vue';
-import '@jsonlens/core/style.css';
-import { JsonExplorer } from '@jsonlens/vue';
-import runtimeWasm from '@jsonlens/core/tree-sitter.wasm?url';
-import languageWasm from '@jsonlens/core/tree-sitter-json.wasm?url';
+import 'jsonlens/style.css';
+import { JsonExplorer } from 'jsonlens-vue';
+import runtimeWasm from 'jsonlens/tree-sitter.wasm?url';
+import languageWasm from 'jsonlens/tree-sitter-json.wasm?url';
 import { hugeSample, smallSample } from './sample.js';
 import './shared.css';
 

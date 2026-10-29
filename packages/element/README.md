@@ -1,17 +1,17 @@
-# @jsonlens/element
+# jsonlens-element
 
 `<json-explorer>` 自定义元素 —— 只要页面能加载一个 ESM 文件就能用，
 不挑框架、不挑构建工具（PHP / Rails / Django / Thymeleaf 模板都能直接写标签）。
 
 ```bash
-npm i @jsonlens/element
+npm i jsonlens-element
 ```
 
 ```html
 <json-explorer src="/data.json" theme="dark" expand-depth="2" style="height: 600px"></json-explorer>
 
 <script type="module">
-  import { JsonExplorerElement } from '@jsonlens/element';
+  import { JsonExplorerElement } from 'jsonlens-element';
   JsonExplorerElement.wasmUrl = '/wasm/';
   JsonExplorerElement; // 导入即注册 <json-explorer>
 
@@ -42,7 +42,7 @@ npm i @jsonlens/element
 ## 四个必须知道的点
 
 1. **自定义元素没有默认高度**，宿主必须给（`style="height:600px"` 或 CSS）。
-2. **样式**：打包器里 `import '@jsonlens/element/style.css'`；
+2. **样式**：打包器里 `import 'jsonlens-element/style.css'`；
    no-bundler 场景用 `<link rel="stylesheet" href="…/dist/style.css">`。
 3. **不要给 `value` 属性塞大 JSON** —— 用 `src` 或 `el.load(text)`。
 4. **组件创建是延后一个宏任务的**，所以 `JsonExplorerElement.wasmUrl = …` 写在 import 之后

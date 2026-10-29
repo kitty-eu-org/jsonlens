@@ -289,7 +289,7 @@ window.__log = [];
 addEventListener('unhandledrejection', (e) => {
   window.__log.push('unhandledrejection: ' + ((e.reason && e.reason.message) || e.reason));
 });
-const { createExplorer } = await import('/node_modules/@jsonlens/core/dist/index.js');
+const { createExplorer } = await import('/node_modules/jsonlens/dist/index.js');
 const api = createExplorer(document.getElementById('host'), {
   wasmUrl: { runtime: '/__missing-runtime.wasm', language: '/__missing-json.wasm' },
 });
@@ -338,14 +338,14 @@ window.__log.push(await api.load('[1,2,3]').then(
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
 
   const html = `<!doctype html><meta charset="utf-8">
-<link rel="stylesheet" href="/node_modules/@jsonlens/core/dist/style.css">
+<link rel="stylesheet" href="/node_modules/jsonlens/dist/style.css">
 <div id="host" style="height:400px"></div>
 <script type="importmap">
 {"imports":{"web-tree-sitter":"/node_modules/web-tree-sitter/tree-sitter.js"}}
 </script>
 <script type="module">
 window.__log = [];
-const { createExplorer } = await import('/node_modules/@jsonlens/core/dist/index.js');
+const { createExplorer } = await import('/node_modules/jsonlens/dist/index.js');
 const api = createExplorer(document.getElementById('host'));
 window.__api = api;
 for (const t of ['load','hover','select','tabchange']) {
@@ -415,7 +415,7 @@ window.__log.push('ready');
 <script type="importmap">
 {"imports":{
   "web-tree-sitter":"/node_modules/web-tree-sitter/tree-sitter.js",
-  "@jsonlens/core":"/node_modules/@jsonlens/core/dist/index.js"
+  "jsonlens":"/node_modules/jsonlens/dist/index.js"
 }}
 </script>
 <script type="module">
@@ -425,7 +425,7 @@ addEventListener('unhandledrejection', (e) => {
 });
 document.addEventListener('loaderror', (e) =>
   window.__log.push('loaderror: ' + ((e.detail && e.detail.message) || e.detail)));
-const { JsonExplorerElement } = await import('/node_modules/@jsonlens/element/dist/index.js');
+const { JsonExplorerElement } = await import('/node_modules/jsonlens-element/dist/index.js');
 // 故意在 import 之后才配：这就是 README 里教的写法
 JsonExplorerElement.wasmUrl = { runtime: '/__nope-runtime.wasm', language: '/__nope-json.wasm' };
 await new Promise((r) => setTimeout(r, 800));

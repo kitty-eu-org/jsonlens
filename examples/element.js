@@ -4,14 +4,14 @@
  * 这段 JS 只做两件事：注册 <json-explorer>、告诉它 wasm 在哪。
  * 之后页面里写标签就行 —— 后端模板（PHP / Rails / Django / Thymeleaf）也能直接上。
  */
-import { JsonExplorerElement } from '@jsonlens/element';
+import { JsonExplorerElement } from 'jsonlens-element';
 // ⚠️ 这一行不能省。Vite 的 lib 模式会把 CSS 抽成独立文件、JS 里**不留引用**，
-// 所以 `import '@jsonlens/element'` 不会自动带样式。
+// 所以 `import 'jsonlens-element'` 不会自动带样式。
 // 走 no-bundler 路线（CDN / <script type="module">）时，等价写法是
-//   <link rel="stylesheet" href=".../@jsonlens/element/dist/style.css">
-import '@jsonlens/element/style.css';
-import runtimeWasm from '@jsonlens/core/tree-sitter.wasm?url';
-import languageWasm from '@jsonlens/core/tree-sitter-json.wasm?url';
+//   <link rel="stylesheet" href=".../jsonlens-element/dist/style.css">
+import 'jsonlens-element/style.css';
+import runtimeWasm from 'jsonlens/tree-sitter.wasm?url';
+import languageWasm from 'jsonlens/tree-sitter-json.wasm?url';
 import { hugeSample } from './sample.js';
 import './shared.css';
 

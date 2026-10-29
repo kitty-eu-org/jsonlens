@@ -6,12 +6,12 @@
  *
  * 注意：这个文件不会被打包，只用于校验。
  */
-import { createExplorer, initWasm } from '@jsonlens/core';
-import type { Explorer, ExplorerEvents, LoadResult } from '@jsonlens/core';
-import { ChunkedDoc, CHUNK_THRESHOLD, Highlighter, JsonView } from '@jsonlens/core/engines';
-import { JsonExplorer } from '@jsonlens/react';
-import { JsonExplorerElement } from '@jsonlens/element';
-import { jsonExplorer } from '@jsonlens/svelte';
+import { createExplorer, initWasm } from 'jsonlens';
+import type { Explorer, ExplorerEvents, LoadResult } from 'jsonlens';
+import { ChunkedDoc, CHUNK_THRESHOLD, Highlighter, JsonView } from 'jsonlens/engines';
+import { JsonExplorer } from 'jsonlens-react';
+import { JsonExplorerElement } from 'jsonlens-element';
+import { jsonExplorer } from 'jsonlens-svelte';
 
 const host = document.createElement('div');
 

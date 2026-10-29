@@ -1,11 +1,11 @@
 /**
- * @jsonlens/core/engines 类型声明 —— 引擎层。
+ * jsonlens/engines 类型声明 —— 引擎层。
  *
  * 这一层给「想自己搭 UI」的人用：不帮你建 DOM，只提供
  * 分块懒解析（ChunkedDoc）、双轴窗口化高亮（Highlighter）、
  * JSON 视图（JsonView）、语法树视图（renderTree）和增量 diff。
  *
- * 想看现成的查看器，用 `@jsonlens/core` 的 `createExplorer`。
+ * 想看现成的查看器，用 `jsonlens` 的 `createExplorer`。
  */
 
 /**

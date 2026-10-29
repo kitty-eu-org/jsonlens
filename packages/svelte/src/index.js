@@ -1,19 +1,19 @@
 /**
- * @jsonlens/svelte —— 一个 Svelte action
+ * jsonlens-svelte —— 一个 Svelte action
  *
  * Svelte 不需要组件封装，action 就是最自然的形态，而且**零运行时依赖**：
- * 这个包除了 @jsonlens/core 什么都不依赖，也不 import 'svelte'。
+ * 这个包除了 jsonlens 什么都不依赖，也不 import 'svelte'。
  *
  * 用法：
  *   <script>
- *     import { jsonExplorer } from '@jsonlens/svelte';
+ *     import { jsonExplorer } from 'jsonlens-svelte';
  *     let text = '';
  *   </script>
  *   <div use:jsonExplorer={{ value: text, theme: 'light', onSelect: (r) => console.log(r) }}
  *        style="height: 600px"></div>
  */
-import { createExplorer } from '@jsonlens/core';
-import '@jsonlens/core/style.css';
+import { createExplorer } from 'jsonlens';
+import 'jsonlens/style.css';
 
 export function jsonExplorer(node, params = {}) {
   const {

@@ -1,7 +1,7 @@
 {
-  "name": "@jsonlens/vue",
+  "name": "jsonlens-vue",
   "version": "0.1.0",
-  "description": "@jsonlens/vue —— JsonExplorer Vue 3 组件",
+  "description": "jsonlens-vue —— JsonExplorer Vue 3 组件",
   "author": "JSONLens contributors",
   "license": "MIT",
   "repository": {
@@ -37,7 +37,7 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs vue"
   },
   "dependencies": {
-    "@jsonlens/core": "^0.1.0"
+    "jsonlens": "^0.1.0"
   },
   "peerDependencies": {
     "vue": ">=3.0.0"

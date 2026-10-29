@@ -5,11 +5,11 @@
 24 MB / 153 万行 / 410 万 token 的文件，**141 ms 打开**（解析 105 + 渲染 0.3 + 面板 34）。同一份数据上比第二快的主流实现还快 33%（101 vs 150 ms），堆只有它的 1/3（27 vs 75 MB），最长同步任务 88 ms —— 页面不会被冻住。
 
 ```
-@jsonlens/core        零依赖 · 只认 DOM · 命令式 API + 事件
-   ├── @jsonlens/react     <JsonExplorer value={text} />
-   ├── @jsonlens/vue       <JsonExplorer :value="text" />
-   ├── @jsonlens/element   <json-explorer src="…">  （一行标签，不挑构建工具）
-   └── @jsonlens/svelte    use:jsonExplorer
+jsonlens        零依赖 · 只认 DOM · 命令式 API + 事件
+   ├── jsonlens-react     <JsonExplorer value={text} />
+   ├── jsonlens-vue       <JsonExplorer :value="text" />
+   ├── jsonlens-element   <json-explorer src="…">  （一行标签，不挑构建工具）
+   └── jsonlens-svelte    use:jsonExplorer
 ```
 
 ---
@@ -28,18 +28,18 @@
 
 | 包 | 行数 | 作用 |
 | --- | ---: | --- |
-| `@jsonlens/core` | ~1200 | 查看器本体 + 引擎层 |
-| `@jsonlens/react` | 113 | `forwardRef`，ref 拿命令式 API |
-| `@jsonlens/vue` | 94 | render 函数，不需要 Vue 编译器 |
-| `@jsonlens/element` | 160 | 自定义元素，事件转成冒泡的 `CustomEvent` |
-| `@jsonlens/svelte` | 74 | action，**不 import svelte**，零运行时依赖 |
+| `jsonlens` | ~1200 | 查看器本体 + 引擎层 |
+| `jsonlens-react` | 113 | `forwardRef`，ref 拿命令式 API |
+| `jsonlens-vue` | 94 | render 函数，不需要 Vue 编译器 |
+| `jsonlens-element` | 160 | 自定义元素，事件转成冒泡的 `CustomEvent` |
+| `jsonlens-svelte` | 74 | action，**不 import svelte**，零运行时依赖 |
 
 ---
 
 ## 1. 上手
 
 ```bash
-npm i @jsonlens/core web-tree-sitter
+npm i jsonlens web-tree-sitter
 ```
 
 ### 包还没发到 npm 的时候，怎么给别的项目用
@@ -51,8 +51,8 @@ npm i @jsonlens/core web-tree-sitter
 ```jsonc
 // 消费方的 package.json
 "dependencies": {
-  "@jsonlens/core": "file:../ts-json-demo/packages/core",
-  "@jsonlens/react": "file:../ts-json-demo/packages/react"
+  "jsonlens": "file:../ts-json-demo/packages/core",
+  "jsonlens-react": "file:../ts-json-demo/packages/react"
 }
 ```
 
@@ -62,7 +62,7 @@ npm i @jsonlens/core web-tree-sitter
 
 ```bash
 cd ts-json-demo
-npm pack -w @jsonlens/core -w @jsonlens/react -w @jsonlens/element --pack-destination /tmp/pk
+npm pack -w jsonlens -w jsonlens-react -w jsonlens-element --pack-destination /tmp/pk
 cd ../your-app && npm i /tmp/pk/jsonlens-core-0.1.0.tgz
 ```
 
@@ -75,8 +75,8 @@ cd ../your-app && npm i /tmp/pk/jsonlens-core-0.1.0.tgz
 ### 原生 / 任意框架
 
 ```js
-import '@jsonlens/core/style.css';
-import { createExplorer } from '@jsonlens/core';
+import 'jsonlens/style.css';
+import { createExplorer } from 'jsonlens';
 
 const viewer = createExplorer(document.getElementById('host'), {
   theme: 'light',
@@ -95,8 +95,8 @@ await viewer.load(jsonText, { title: 'data.json' });
 ### React
 
 ```jsx
-import '@jsonlens/react/style.css';
-import { JsonExplorer } from '@jsonlens/react';
+import 'jsonlens-react/style.css';
+import { JsonExplorer } from 'jsonlens-react';
 
 <JsonExplorer value={text} theme="light" expandDepth={2} onStats={setStats} ref={ref} />
 // ref.current.expandTo(3) / .collapseAll() / .reveal(range) / .instance
@@ -106,8 +106,8 @@ import { JsonExplorer } from '@jsonlens/react';
 
 ```vue
 <script setup>
-import '@jsonlens/vue/style.css';
-import { JsonExplorer } from '@jsonlens/vue';
+import 'jsonlens-vue/style.css';
+import { JsonExplorer } from 'jsonlens-vue';
 const text = ref('');
 </script>
 
@@ -120,8 +120,8 @@ const text = ref('');
 
 ```svelte
 <script>
-  import '@jsonlens/svelte/style.css';
-  import { jsonExplorer } from '@jsonlens/svelte';
+  import 'jsonlens-svelte/style.css';
+  import { jsonExplorer } from 'jsonlens-svelte';
   let text = '';
 </script>
 
@@ -133,7 +133,7 @@ const text = ref('');
 ```html
 <json-explorer src="/data.json" theme="dark" expand-depth="2" style="height: 600px"></json-explorer>
 <script type="module">
-  import { JsonExplorerElement } from '@jsonlens/element';
+  import { JsonExplorerElement } from 'jsonlens-element';
   JsonExplorerElement.wasmUrl = '/wasm/';   // 见下节
   document.addEventListener('select', (e) => console.log(e.detail));
 </script>
@@ -144,28 +144,28 @@ const text = ref('');
 把两个包的 `dist` 和 `web-tree-sitter` 一起拷进静态目录，用 importmap 指过去就行 —— 不用 Node、不用打包：
 
 ```html
-<link rel="stylesheet" href="/vendor/@jsonlens/core/dist/style.css">
+<link rel="stylesheet" href="/vendor/jsonlens/dist/style.css">
 <div id="host" style="height: 600px"></div>
 
 <script type="importmap">
 { "imports": {
     "web-tree-sitter": "/vendor/web-tree-sitter/tree-sitter.js",
-    "@jsonlens/core": "/vendor/@jsonlens/core/dist/index.js"
+    "jsonlens": "/vendor/jsonlens/dist/index.js"
 } }
 </script>
 <script type="module">
-  import { createExplorer } from '@jsonlens/core';
+  import { createExplorer } from 'jsonlens';
   const api = createExplorer('#host', {
     // 这种场景必须显式给：两个 wasm 就在 dist 里
-    wasmUrl: '/vendor/@jsonlens/core/dist/',
+    wasmUrl: '/vendor/jsonlens/dist/',
   });
   await api.load(await (await fetch('/data.json')).text());
 </script>
 ```
 
-要拷的东西：`@jsonlens/core/dist/`（整个目录，含两个 `.wasm` 和 `style.css`）+ `web-tree-sitter/tree-sitter.js`。实测这条路径在纯静态服务器上能跑（行渲染、关键词/字符串高亮都正常）。
+要拷的东西：`jsonlens/dist/`（整个目录，含两个 `.wasm` 和 `style.css`）+ `web-tree-sitter/tree-sitter.js`。实测这条路径在纯静态服务器上能跑（行渲染、关键词/字符串高亮都正常）。
 
-只要一个标签、不写 JS 的话，换成 `@jsonlens/element` 的 `dist`、importmap 里加一条 `@jsonlens/element`，然后直接写 `<json-explorer src="/data.json">`。
+只要一个标签、不写 JS 的话，换成 `jsonlens-element` 的 `dist`、importmap 里加一条 `jsonlens-element`，然后直接写 `<json-explorer src="/data.json">`。
 
 ---
 
@@ -177,8 +177,8 @@ const text = ref('');
 createExplorer(el, { wasmUrl: '/wasm/' });
 
 // ② 两个完整 URL（打包器环境的最佳实践）
-import runtime from '@jsonlens/core/tree-sitter.wasm?url';
-import language from '@jsonlens/core/tree-sitter-json.wasm?url';
+import runtime from 'jsonlens/tree-sitter.wasm?url';
+import language from 'jsonlens/tree-sitter-json.wasm?url';
 createExplorer(el, { wasmUrl: { runtime, language } });
 
 // ③ 不传 —— 从包目录推断（靠 import.meta.url）
@@ -203,7 +203,7 @@ createExplorer(el);
 
 ### 两个打包器的坑
 
-**坑 1：Vite 的 lib 模式会把 CSS 抽成独立文件，JS 里不留引用。** 所以 `import '@jsonlens/react'` 不会自动带样式，必须另外 `import '@jsonlens/react/style.css'`（或 `@jsonlens/core/style.css`）。
+**坑 1：Vite 的 lib 模式会把 CSS 抽成独立文件，JS 里不留引用。** 所以 `import 'jsonlens-react'` 不会自动带样式，必须另外 `import 'jsonlens-react/style.css'`（或 `jsonlens/style.css`）。
 
 **坑 2：不要把 wasm 的 URL 写成 `new URL(\`./${name}\`, import.meta.url)`。** 第一参数只要是模板字面量，Vite 就会把它当成「目录动态资源」，去 glob 整个目录生成映射表 —— 构建不报错，运行时拿到错误 URL。本包里用变量接住 `import.meta` 绕开静态分析，注释在 `packages/core/src/wasm.js`。
 
@@ -270,7 +270,7 @@ api.on('error', (err) => showToast(`wasm 加载失败：${err.message}`));
 
 ## 4. 引擎层（想自己搭 UI 就用这个）
 
-`@jsonlens/core/engines` 不建任何 DOM，只给零件：
+`jsonlens/engines` 不建任何 DOM，只给零件：
 
 | 导出 | 作用 |
 | --- | --- |
@@ -445,7 +445,7 @@ npm run dev                 # playground → http://localhost:5180
 npm run dev:examples        # 四框架示例 → http://localhost:5181
 
 npm run build               # core + 四个封装 + demo + 示例
-npm run build:core          # 只构建 @jsonlens/core（→ packages/core/dist）
+npm run build:core          # 只构建 jsonlens（→ packages/core/dist）
 npm run smoke               # 用 Playwright 打开所有产物页面：11 条用例（渲染 / 24 MB 分块 / 折叠展开 / 事件契约 / 故障注入）
 npm run typecheck           # 用 tsc 校验所有 .d.ts（types/typecheck.tsx 是使用方）
 npm run check:edit          # 增量行索引 vs 整份重扫的对拍（fuzz 约 8000 例）

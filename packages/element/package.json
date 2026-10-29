@@ -1,7 +1,7 @@
 {
-  "name": "@jsonlens/element",
+  "name": "jsonlens-element",
   "version": "0.1.0",
-  "description": "@jsonlens/element —— <json-explorer> 自定义元素，任何框架/原生可用",
+  "description": "jsonlens-element —— <json-explorer> 自定义元素，任何框架/原生可用",
   "author": "JSONLens contributors",
   "license": "MIT",
   "repository": {
@@ -37,6 +37,6 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs element"
   },
   "dependencies": {
-    "@jsonlens/core": "^0.1.0"
+    "jsonlens": "^0.1.0"
   }
 }

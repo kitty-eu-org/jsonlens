@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "vite",
     "dev:examples": "vite --config examples/vite.config.js",
-    "build:core": "npm run build -w @jsonlens/core",
+    "build:core": "npm run build -w jsonlens",
     "build:pkgs": "node scripts/build-wrappers.mjs",
     "build:demo": "npm run build:core && vite build",
     "build:examples": "npm run build:core && npm run build:pkgs && vite build --config examples/vite.config.js",
@@ -31,16 +31,16 @@
     "bench": "node bench/run.mjs",
     "preview": "vite preview --port 5181",
     "pack:check": "node scripts/pack-check.mjs",
-    "publish:core": "npm publish -w @jsonlens/core",
-    "publish:all": "npm publish -w @jsonlens/core && npm publish -w @jsonlens/react && npm publish -w @jsonlens/vue && npm publish -w @jsonlens/element && npm publish -w @jsonlens/svelte",
+    "publish:core": "npm publish -w jsonlens",
+    "publish:all": "npm publish -w jsonlens && npm publish -w jsonlens-react && npm publish -w jsonlens-vue && npm publish -w jsonlens-element && npm publish -w jsonlens-svelte",
     "check:mem": "node --expose-gc scripts/check-memory.mjs"
   },
   "dependencies": {
-    "@jsonlens/core": "*",
-    "@jsonlens/element": "*",
-    "@jsonlens/react": "*",
-    "@jsonlens/svelte": "*",
-    "@jsonlens/vue": "*",
+    "jsonlens": "*",
+    "jsonlens-element": "*",
+    "jsonlens-react": "*",
+    "jsonlens-svelte": "*",
+    "jsonlens-vue": "*",
     "web-tree-sitter": "0.25.10"
   },
   "devDependencies": {

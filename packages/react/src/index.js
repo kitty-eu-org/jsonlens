@@ -1,5 +1,5 @@
 /**
- * @jsonlens/react
+ * jsonlens-react
  *
  * 整个封装只有一件事：把 React 的挂载/卸载/属性变化，映射到
  * createExplorer() / load() / destroy()。核心组件不知道自己被 React 用着。
@@ -13,8 +13,8 @@
  *      否则会不停销毁重建。
  */
 import { createElement, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { createExplorer } from '@jsonlens/core';
-import '@jsonlens/core/style.css';
+import { createExplorer } from 'jsonlens';
+import 'jsonlens/style.css';
 
 const HOST_STYLE = { width: '100%', height: '100%', minHeight: 0 };
 

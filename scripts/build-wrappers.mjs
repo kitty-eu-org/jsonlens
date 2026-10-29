@@ -47,15 +47,15 @@ for (const { dir, external } of targets) {
         fileName: (fmt) => `index.${fmt === 'es' ? 'js' : 'cjs'}`,
         // 每个包里都会带一份 style.css（core 那份的拷贝）。看着像重复，
         // 但 Vite 的 lib 模式会把 CSS 抽成独立文件、JS 里**不留引用**，
-        // 所以只能让使用者显式 `import '@jsonlens/react/style.css'`。
+        // 所以只能让使用者显式 `import 'jsonlens-react/style.css'`。
         // 各包自带一份，好处是版本对齐 —— 升级包时样式跟着走。
         cssFileName: 'style',
       },
       rollupOptions: {
-        external: [...external, '@jsonlens/core'],
+        external: [...external, 'jsonlens'],
         output: { exports: 'named' },
       },
     },
   });
-  console.log(`✓ @jsonlens/${dir}`);
+  console.log(`✓ jsonlens-${dir}`);
 }

@@ -13,6 +13,9 @@ import { execFileSync } from 'node:child_process';
 
 const PACKAGES = ['core', 'react', 'vue', 'element', 'svelte'];
 
+/** 目录名 → npm 包名。core 不带后缀，四个封装是 jsonlens-<框架>。 */
+const pkgName = (dir) => (dir === 'core' ? 'jsonlens' : `jsonlens-${dir}`);
+
 /** 每个包必须有的文件 */
 const REQUIRED = {
   core: ['dist/index.js', 'dist/index.cjs', 'dist/engines.js', 'dist/engines.cjs', 'dist/style.css',
@@ -29,7 +32,7 @@ const rows = [];
 for (const name of PACKAGES) {
   const out = execFileSync(
     'npm',
-    ['pack', '-w', `@jsonlens/${name}`, '--dry-run', '--json'],
+    ['pack', '-w', pkgName(name), '--dry-run', '--json'],
     { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
   );
   const [info] = JSON.parse(out);

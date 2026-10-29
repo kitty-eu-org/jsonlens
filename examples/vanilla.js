@@ -5,10 +5,10 @@
  * 用打包器的 `?url` 把两个 wasm 变成 URL，打包时它们会被当资源发出去。
  * 这样 JS 和 wasm 的路径关系由构建工具保证，不用手工拷 public/。
  */
-import '@jsonlens/core/style.css';
-import { createExplorer } from '@jsonlens/core';
-import runtimeWasm from '@jsonlens/core/tree-sitter.wasm?url';
-import languageWasm from '@jsonlens/core/tree-sitter-json.wasm?url';
+import 'jsonlens/style.css';
+import { createExplorer } from 'jsonlens';
+import runtimeWasm from 'jsonlens/tree-sitter.wasm?url';
+import languageWasm from 'jsonlens/tree-sitter-json.wasm?url';
 import { brokenSample, hugeSample, smallSample } from './sample.js';
 import './shared.css';
 

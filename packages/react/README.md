@@ -1,17 +1,17 @@
-# @jsonlens/react
+# jsonlens-react
 
-[`@jsonlens/core`](https://www.npmjs.com/package/@jsonlens/core) 的 React 封装，83 行。
+[`jsonlens`](https://www.npmjs.com/package/jsonlens) 的 React 封装，83 行。
 用 tree-sitter 分块懒解析 + 双轴窗口化渲染，24 MB JSON 141 ms 打开。
 
 > 渲染、虚拟滚动、懒解析全在 core 里，这个包只做「挂载 / 卸载 / 属性变化」的桥接。
 
 ```bash
-npm i @jsonlens/react
+npm i jsonlens-react
 ```
 
 ```jsx
-import '@jsonlens/react/style.css';
-import { JsonExplorer } from '@jsonlens/react';
+import 'jsonlens-react/style.css';
+import { JsonExplorer } from 'jsonlens-react';
 
 function App() {
   const ref = useRef(null);
@@ -49,8 +49,8 @@ function App() {
 
 ## 两个必须知道的点
 
-1. **样式要显式引入**：`import '@jsonlens/react/style.css'`。Vite 的 lib 模式会把 CSS 抽成独立文件、JS 里不留引用，所以 import 组件不会自动带样式。
+1. **样式要显式引入**：`import 'jsonlens-react/style.css'`。Vite 的 lib 模式会把 CSS 抽成独立文件、JS 里不留引用，所以 import 组件不会自动带样式。
 2. **宿主必须给高度**，组件不猜。`wasmUrl` 在打包环境里建议用
-   `import rt from '@jsonlens/core/tree-sitter.wasm?url'` 的方式传入，详见 core 的 README。
+   `import rt from 'jsonlens/tree-sitter.wasm?url'` 的方式传入，详见 core 的 README。
 
 MIT

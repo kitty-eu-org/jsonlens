@@ -1,16 +1,16 @@
-# @jsonlens/svelte
+# jsonlens-svelte
 
-[`@jsonlens/core`](https://www.npmjs.com/package/@jsonlens/core) 的 Svelte action，50 行。
+[`jsonlens`](https://www.npmjs.com/package/jsonlens) 的 Svelte action，50 行。
 **零运行时依赖** —— 这个包不 import `svelte`，也不需要 Svelte 的预处理器。
 
 ```bash
-npm i @jsonlens/svelte
+npm i jsonlens-svelte
 ```
 
 ```svelte
 <script>
-  import '@jsonlens/svelte/style.css';
-  import { jsonExplorer } from '@jsonlens/svelte';
+  import 'jsonlens-svelte/style.css';
+  import { jsonExplorer } from 'jsonlens-svelte';
 
   let text = '';
   let stats;
@@ -38,7 +38,7 @@ action.api.expandTo(3);
 
 ## 两个必须知道的点
 
-1. **样式要显式引入**：`import '@jsonlens/svelte/style.css'`（lib 模式 CSS 被抽走，JS 里不留引用）。
+1. **样式要显式引入**：`import 'jsonlens-svelte/style.css'`（lib 模式 CSS 被抽走，JS 里不留引用）。
 2. **宿主必须给高度**，组件不猜。
 
 MIT

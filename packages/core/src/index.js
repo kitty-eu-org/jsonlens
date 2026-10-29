@@ -1,5 +1,5 @@
 /**
- * @jsonlens/core —— 框架无关的高性能 JSON 查看器
+ * jsonlens —— 框架无关的高性能 JSON 查看器
  *
  * 两层导出，别混用：
  *   - `.`        公共 API：createExplorer（一个工厂函数 + 一组方法 + 事件）

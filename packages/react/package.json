@@ -1,7 +1,7 @@
 {
-  "name": "@jsonlens/react",
+  "name": "jsonlens-react",
   "version": "0.1.0",
-  "description": "@jsonlens/react —— JsonExplorer React 组件",
+  "description": "jsonlens-react —— JsonExplorer React 组件",
   "author": "JSONLens contributors",
   "license": "MIT",
   "repository": {
@@ -37,7 +37,7 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs react"
   },
   "dependencies": {
-    "@jsonlens/core": "^0.1.0"
+    "jsonlens": "^0.1.0"
   },
   "peerDependencies": {
     "react": ">=17"
