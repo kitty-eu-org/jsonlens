@@ -32,6 +32,7 @@
     "preview": "vite preview --port 5181",
     "pack:check": "node scripts/pack-check.mjs",
     "publish:core": "npm publish -w @jsonlens/core",
+    "publish:all": "npm publish -w @jsonlens/core && npm publish -w @jsonlens/react && npm publish -w @jsonlens/vue && npm publish -w @jsonlens/element && npm publish -w @jsonlens/svelte",
     "check:mem": "node --expose-gc scripts/check-memory.mjs"
   },
   "dependencies": {
