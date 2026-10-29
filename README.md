@@ -63,7 +63,7 @@ npm i jsonlens web-tree-sitter
 ```bash
 cd ts-json-demo
 npm pack -w jsonlens -w jsonlens-react -w jsonlens-element --pack-destination /tmp/pk
-cd ../your-app && npm i /tmp/pk/jsonlens-core-0.1.0.tgz
+cd ../your-app && npm i /tmp/pk/jsonlens-0.1.0.tgz
 ```
 
 `npm pack` 出来的就是 `npm publish` 的**同一份产物**（实测 138 kB，含 `dist/` + 两个 wasm + 两份 `.d.ts` + LICENSE + README），`npm run pack:check` 会校验这些文件在不在。
