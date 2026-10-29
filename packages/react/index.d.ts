@@ -5,7 +5,7 @@ import type {
   ExplorerStats,
   LoadResult,
   Range,
-} from 'jsonlens';
+} from '@fagao-ai/jsonlens';
 
 export interface JsonExplorerHandle {
   load(text: string, options?: { title?: string }): Promise<LoadResult | null> | undefined;

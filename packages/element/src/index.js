@@ -12,8 +12,8 @@
  * 注意：`value` 属性不要放大段 JSON —— HTML 属性有转义和长度问题。
  * 大文本请用 `src` 让组件自己 fetch，或者 JS 里调 `.load()`。
  */
-import { createExplorer } from 'jsonlens';
-import 'jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
+import '@fagao-ai/jsonlens/style.css';
 
 const ATTRS = ['src', 'value', 'theme', 'tab', 'title', 'expand-depth'];
 
@@ -42,7 +42,7 @@ export class JsonExplorerElement extends HTMLElement {
     if (this._api || this._scheduled) return;
     // 延后再真正创建。原因：`customElements.define()` 会**同步** upgrade 页面里已有的标签，
     // 而调用方通常要先 import、再写静态配置：
-    //   const { JsonExplorerElement } = await import('jsonlens-element');
+    //   const { JsonExplorerElement } = await import('@fagao-ai/jsonlens-element');
     //   JsonExplorerElement.wasmUrl = {...};
     // 不延后就会拿着「还没设置的配置」去初始化，wasm 直接 404。
     //

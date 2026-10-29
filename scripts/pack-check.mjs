@@ -13,8 +13,8 @@ import { execFileSync } from 'node:child_process';
 
 const PACKAGES = ['core', 'react', 'vue', 'element', 'svelte'];
 
-/** 目录名 → npm 包名。core 不带后缀，四个封装是 jsonlens-<框架>。 */
-const pkgName = (dir) => (dir === 'core' ? 'jsonlens' : `jsonlens-${dir}`);
+/** 目录名 → npm 包名。core 不带后缀，四个封装是 jsonlens-<框架>，统一挂在 @fagao-ai scope 下。 */
+const pkgName = (dir) => (dir === 'core' ? '@fagao-ai/jsonlens' : `@fagao-ai/jsonlens-${dir}`);
 
 /** 每个包必须有的文件 */
 const REQUIRED = {

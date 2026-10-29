@@ -1,6 +1,6 @@
-# jsonlens-element
+# @fagao-ai/jsonlens-element
 
-[![npm version](https://img.shields.io/npm/v/jsonlens-element.svg)](https://www.npmjs.com/package/jsonlens-element)
+[![npm version](https://img.shields.io/npm/v/@fagao-ai/jsonlens-element.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens-element)
 
 `<json-explorer>` custom element for [jsonlens](https://github.com/kitty-eu-org/jsonlens), a JSON viewer built for very large documents.
 
@@ -9,7 +9,7 @@ Usable from plain HTML with no framework and no build step.
 ## Install
 
 ```bash
-npm install jsonlens-element
+npm install @fagao-ai/jsonlens-element
 ```
 
 ## Usage
@@ -18,8 +18,8 @@ npm install jsonlens-element
 <json-explorer src="/data.json" theme="dark" expand-depth="2" style="height: 600px"></json-explorer>
 
 <script type="module">
-  import 'jsonlens-element/style.css';
-  import { JsonExplorerElement } from 'jsonlens-element';
+  import '@fagao-ai/jsonlens-element/style.css';
+  import { JsonExplorerElement } from '@fagao-ai/jsonlens-element';
 
   JsonExplorerElement.wasmUrl = '/wasm/';
 
@@ -57,7 +57,7 @@ Listen with `addEventListener`, or with `el.on(type, fn)` which unwraps `detail`
 ## Four things to know
 
 1. **No default height.** Set `style="height: 600px"` or a CSS rule.
-2. **Import the stylesheet.** `import 'jsonlens-element/style.css'` when bundling, or a `<link>` to `dist/style.css` when not.
+2. **Import the stylesheet.** `import '@fagao-ai/jsonlens-element/style.css'` when bundling, or a `<link>` to `dist/style.css` when not.
 3. **Do not put large JSON in the `value` attribute.** Use `src` or `el.load(text)` — the attribute is serialized into the DOM.
 4. **Element creation is deferred by one macrotask.** Setting `JsonExplorerElement.wasmUrl` after the import (even after an `await`) still applies to elements already in the markup. The trade-off is that content appears one tick after insertion. To get the instance, await `customElements.whenDefined('json-explorer')` and then a tick, or read `el.explorer`.
 

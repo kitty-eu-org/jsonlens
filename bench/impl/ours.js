@@ -12,7 +12,7 @@ import {
   JSON_QUERY,
   LINE_HEIGHT,
   JsonView,
-} from 'jsonlens/engines';
+} from '@fagao-ai/jsonlens/engines';
 
 export const label = 'tree-sitter（本项目）';
 

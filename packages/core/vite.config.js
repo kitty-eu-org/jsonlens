@@ -15,7 +15,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 /** 把 wasm/ 下的文件拷到 dist/ */
 function copyWasm() {
   return {
-    name: 'jsonlens:copy-wasm',
+    name: '@fagao-ai/jsonlens:copy-wasm',
     apply: 'build',
     closeBundle() {
       const from = resolve(here, 'wasm');

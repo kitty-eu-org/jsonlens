@@ -6,12 +6,12 @@
  *
  * 注意：这个文件不会被打包，只用于校验。
  */
-import { createExplorer, initWasm } from 'jsonlens';
-import type { Explorer, ExplorerEvents, LoadResult } from 'jsonlens';
-import { ChunkedDoc, CHUNK_THRESHOLD, Highlighter, JsonView } from 'jsonlens/engines';
-import { JsonExplorer } from 'jsonlens-react';
-import { JsonExplorerElement } from 'jsonlens-element';
-import { jsonExplorer } from 'jsonlens-svelte';
+import { createExplorer, initWasm } from '@fagao-ai/jsonlens';
+import type { Explorer, ExplorerEvents, LoadResult } from '@fagao-ai/jsonlens';
+import { ChunkedDoc, CHUNK_THRESHOLD, Highlighter, JsonView } from '@fagao-ai/jsonlens/engines';
+import { JsonExplorer } from '@fagao-ai/jsonlens-react';
+import { JsonExplorerElement } from '@fagao-ai/jsonlens-element';
+import { jsonExplorer } from '@fagao-ai/jsonlens-svelte';
 
 const host = document.createElement('div');
 

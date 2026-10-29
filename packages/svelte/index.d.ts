@@ -1,4 +1,4 @@
-import type { Explorer, ExplorerOptions, ExplorerStats, Range } from 'jsonlens';
+import type { Explorer, ExplorerOptions, ExplorerStats, Range } from '@fagao-ai/jsonlens';
 
 export interface JsonExplorerActionParams
   extends Pick<

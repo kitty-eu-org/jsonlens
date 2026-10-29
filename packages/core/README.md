@@ -1,6 +1,6 @@
-# jsonlens
+# @fagao-ai/jsonlens
 
-[![npm version](https://img.shields.io/npm/v/jsonlens.svg)](https://www.npmjs.com/package/jsonlens)
+[![npm version](https://img.shields.io/npm/v/@fagao-ai/jsonlens.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens)
 
 A JSON viewer for documents that are too large to render directly. 24 MB / 1.53 M lines opens in about 140 ms in the browser.
 
@@ -11,7 +11,7 @@ Full documentation, benchmarks and limitations: [github.com/kitty-eu-org/jsonlen
 ## Install
 
 ```bash
-npm install jsonlens
+npm install @fagao-ai/jsonlens
 ```
 
 `web-tree-sitter` is installed along with it. The two `.wasm` files ship inside the package.
@@ -19,8 +19,8 @@ npm install jsonlens
 ## Quick start
 
 ```js
-import 'jsonlens/style.css';
-import { createExplorer } from 'jsonlens';
+import '@fagao-ai/jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
 
 const viewer = createExplorer(document.getElementById('host'), {
   theme: 'light',
@@ -44,8 +44,8 @@ Two files are required: `tree-sitter.wasm` (runtime) and `tree-sitter-json.wasm`
 createExplorer(el, { wasmUrl: '/wasm/' });
 
 // Or explicit URLs, recommended with a bundler
-import runtime from 'jsonlens/tree-sitter.wasm?url';
-import language from 'jsonlens/tree-sitter-json.wasm?url';
+import runtime from '@fagao-ai/jsonlens/tree-sitter.wasm?url';
+import language from '@fagao-ai/jsonlens/tree-sitter-json.wasm?url';
 createExplorer(el, { wasmUrl: { runtime, language } });
 ```
 
@@ -92,12 +92,12 @@ The component fetches both files itself and hands the bytes to tree-sitter, so a
 
 ## Engines
 
-`jsonlens/engines` exposes the internals without any UI, for building a custom viewer:
+`@fagao-ai/jsonlens/engines` exposes the internals without any UI, for building a custom viewer:
 
 `ChunkedDoc` · `Highlighter` · `JsonView` · `renderTree` · `scanTopLevel` · `diffEdit` · `pointAt`
 
 ```js
-import { ChunkedDoc, Highlighter, JsonView } from 'jsonlens/engines';
+import { ChunkedDoc, Highlighter, JsonView } from '@fagao-ai/jsonlens/engines';
 
 const doc = new ChunkedDoc(text, parser);
 doc.prime(1);
@@ -111,15 +111,15 @@ hl.render(scrollTop, scrollLeft, clientHeight, false, clientWidth);
 
 | Package | Usage |
 | --- | --- |
-| `jsonlens-react` | `<JsonExplorer value={text} />` |
-| `jsonlens-vue` | `<JsonExplorer :value="text" />` |
-| `jsonlens-svelte` | `use:jsonExplorer` |
-| `jsonlens-element` | `<json-explorer>` |
+| `@fagao-ai/jsonlens-react` | `<JsonExplorer value={text} />` |
+| `@fagao-ai/jsonlens-vue` | `<JsonExplorer :value="text" />` |
+| `@fagao-ai/jsonlens-svelte` | `use:jsonExplorer` |
+| `@fagao-ai/jsonlens-element` | `<json-explorer>` |
 
 ## Notes
 
 - The host element must have a height. Do not set `height: 100%` on `.jl-root`, it overrides a height set on the same element.
-- Vite's library mode extracts CSS from the JS bundle, so `import 'jsonlens/style.css'` is required.
+- Vite's library mode extracts CSS from the JS bundle, so `import '@fagao-ai/jsonlens/style.css'` is required.
 - Rows are 20 px and expect a monospace font. Pass `charWidth: 0` to disable horizontal clipping.
 - `destroy()` releases the wasm trees. A 24 MB document scrolled to the bottom holds about 450 MB of wasm heap; the ceiling is 2 GB.
 

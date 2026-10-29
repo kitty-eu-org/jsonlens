@@ -5,8 +5,8 @@
  * 用 render function 而不是 SFC，这样包不需要 Vue 的编译插件，纯 ESM 就能用。
  */
 import { defineComponent, h, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { createExplorer } from 'jsonlens';
-import 'jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
+import '@fagao-ai/jsonlens/style.css';
 
 export const JsonExplorer = defineComponent({
   name: 'JsonExplorer',

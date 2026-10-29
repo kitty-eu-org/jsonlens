@@ -1,5 +1,5 @@
 import { Query } from 'web-tree-sitter';
-import { initWasm } from 'jsonlens';
+import { initWasm } from '@fagao-ai/jsonlens';
 import {
   ChunkedDoc,
   CHUNK_THRESHOLD,
@@ -9,7 +9,7 @@ import {
   JsonView,
   diffEdit,
   renderTree,
-} from 'jsonlens/engines';
+} from '@fagao-ai/jsonlens/engines';
 import { SAMPLES, buildBigSample } from './samples.js';
 
 const BASE = import.meta.env.BASE_URL;

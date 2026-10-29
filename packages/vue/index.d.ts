@@ -1,5 +1,5 @@
 import type { DefineComponent } from 'vue';
-import type { Explorer, ExplorerStats, LoadResult, Range } from 'jsonlens';
+import type { Explorer, ExplorerStats, LoadResult, Range } from '@fagao-ai/jsonlens';
 
 export interface JsonExplorerVueHandle {
   load(text: string, options?: { title?: string }): Promise<LoadResult | null> | undefined;

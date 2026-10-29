@@ -1,22 +1,22 @@
-# jsonlens-react
+# @fagao-ai/jsonlens-react
 
-[![npm version](https://img.shields.io/npm/v/jsonlens-react.svg)](https://www.npmjs.com/package/jsonlens-react)
+[![npm version](https://img.shields.io/npm/v/@fagao-ai/jsonlens-react.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens-react)
 
 React binding for [jsonlens](https://github.com/kitty-eu-org/jsonlens), a JSON viewer built for very large documents.
 
 ## Install
 
 ```bash
-npm install jsonlens-react
+npm install @fagao-ai/jsonlens-react
 ```
 
-`jsonlens` is installed as a dependency. React 17 or newer is expected as a peer.
+`@fagao-ai/jsonlens` is installed as a dependency. React 17 or newer is expected as a peer.
 
 ## Usage
 
 ```jsx
-import 'jsonlens-react/style.css';
-import { JsonExplorer } from 'jsonlens-react';
+import '@fagao-ai/jsonlens-react/style.css';
+import { JsonExplorer } from '@fagao-ai/jsonlens-react';
 
 <JsonExplorer
   value={text}
@@ -57,7 +57,7 @@ The host element needs a height. `style` and `className` are forwarded to it.
 | `reveal(range)` / `scrollToLine(line, opts)` | scroll to a source range or line |
 | `load(text, opts)` / `destroy()` | imperative load / teardown |
 | `stats` / `text` | current state |
-| `instance` | the underlying `Explorer` from `jsonlens` |
+| `instance` | the underlying `Explorer` from `@fagao-ai/jsonlens` |
 
 ## Notes
 
@@ -65,8 +65,8 @@ The host element needs a height. `style` and `className` are forwarded to it.
 - **`wasmUrl` in a bundler.** The default relies on `import.meta.url` and breaks once the package is inlined into an app bundle. Pass it explicitly:
 
   ```js
-  import runtime from 'jsonlens/tree-sitter.wasm?url';
-  import language from 'jsonlens/tree-sitter-json.wasm?url';
+  import runtime from '@fagao-ai/jsonlens/tree-sitter.wasm?url';
+  import language from '@fagao-ai/jsonlens/tree-sitter-json.wasm?url';
 
   <JsonExplorer value={text} wasmUrl={{ runtime, language }} />
   ```

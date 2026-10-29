@@ -1,5 +1,5 @@
 {
-  "name": "jsonlens",
+  "name": "@fagao-ai/jsonlens",
   "version": "0.1.0",
   "description": "框架无关的高性能 JSON 查看器：web-tree-sitter 懒解析 + 双轴窗口化渲染，25 MB 秒开",
   "author": "JSONLens contributors",

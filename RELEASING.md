@@ -16,7 +16,7 @@ jsonlens      必须最先发（另外四个依赖它）
 分包是生态惯例（Monaco 是 `monaco-editor` + `@monaco-editor/react`，CodeMirror 6 是
 `@codemirror/state|view` + 各框架包），`npm i` 只会拉 core 需要的 `web-tree-sitter`。
 
-> 如果只想发一个？那就只发 `jsonlens` —— 它是零依赖的，
+> 如果只想发一个？那就只发 `@fagao-ai/jsonlens` —— 它是零依赖的，
 > 在任何框架里都能直接 `createExplorer(el, opts)`，封装包只是省掉十几行样板。
 
 ---
@@ -56,25 +56,46 @@ git count-objects -vH                    # 看 size-pack
 
 ## 0.5 npm 侧一次性准备
 
-1. **不需要建组织，也不需要用 scope。** 5 个包都是无 scope 的扁平名：
+1. **包名已经定了，不用再纠结。** 5 个包挂在账号 `@fagao-ai` 的 scope 下：
 
    | 目录 | npm 包名 | 安装命令 |
    | --- | --- | --- |
-   | `packages/core` | `jsonlens` | `npm i jsonlens` |
-   | `packages/react` | `jsonlens-react` | `npm i jsonlens-react` |
-   | `packages/vue` | `jsonlens-vue` | `npm i jsonlens-vue` |
-   | `packages/svelte` | `jsonlens-svelte` | `npm i jsonlens-svelte` |
-   | `packages/element` | `jsonlens-element` | `npm i jsonlens-element` |
+   | `packages/core` | `@fagao-ai/jsonlens` | `npm i @fagao-ai/jsonlens` |
+   | `packages/react` | `@fagao-ai/jsonlens-react` | `npm i @fagao-ai/jsonlens-react` |
+   | `packages/vue` | `@fagao-ai/jsonlens-vue` | `npm i @fagao-ai/jsonlens-vue` |
+   | `packages/svelte` | `@fagao-ai/jsonlens-svelte` | `npm i @fagao-ai/jsonlens-svelte` |
+   | `packages/element` | `@fagao-ai/jsonlens-element` | `npm i @fagao-ai/jsonlens-element` |
 
-   > 本来打算用 `@jsonlens/core` 这套 scope，但 npm 上 `jsonlens` 这个**用户名**已经被人注册了
-   > （0 个包，纯占着），而 scope 名和用户名共用一套命名空间 —— 建 org 时直接报
-   > `The organization name 'jsonlens' is not available`。
-   > 改成扁平名后，这 5 个名字都验证过是空的（registry 返回 404）。
+   > 用这个 scope 是因为另外两条路都被 npm 掐死了，按尝试顺序记录（不要重复尝试）：
+   >
+   > | 尝试过的方案 | 结果 |
+   > | --- | --- |
+   > | `@jsonlens/core` 等 scoped 名 | ❌ 建 org 时报 `The organization name 'jsonlens' is not available`。npm 上有个叫 `jsonlens` 的**用户名**（0 个包，纯占位），scope 名和用户名共用一套命名空间 |
+   > | `jsonlens` / `jsonlens-react` 等无 scope 扁平名 | ❌ 发 `jsonlens` 时报 403：`Package name too similar to existing package json-lens`。npm 的反抢注检查把 `jsonlens` 判定为与已有的 `json-lens`（0.0.1，JSON Pointer 库）过于相似 |
+   > | `@fagao-ai/jsonlens*` | ✅ scope 属于账号本身，且带 scope 的包不受重名相似性检查限制 |
+   >
+   > **查「这个名字能不能用」，光看 registry 返回 404 是不够的。** 404 只说明没有同名包，
+   > 还有两种挡法：(a) 同名 npm 用户名会让同名 org 建不出来；(b) 与已有包过于相似会在 publish 时被 403。
+   > 用户名要用 `https://www.npmjs.com/~<name>` 查 —— curl 会被 Cloudflare 挡（403），得在浏览器里看。
    >
    > 目录名 → 包名的映射只有两处代码关心：`scripts/pack-check.mjs` 的 `pkgName()`，
    > 以及 `packages/*/package.json` 的 `name` 字段。换名时改这两处即可。
 
-2. **登录 + 开 2FA**：`npm login`，然后在 npm 账号设置里开 two-factor（发布时会要求输验证码）。
+2. **登录用浏览器授权的方式**（本机已登录，换机器时这样重来）：
+
+   ```bash
+   npm login --auth-type=web        # 会打印一个 npmjs.com/login 链接
+   ```
+
+   浏览器打开那个链接，用**安全密钥 / 指纹**确认（这个账号开了 2FA）。token 由 npm 自己写进
+   `~/.npmrc`，不需要手工复制。
+
+   注意这个账号保护得比较严：**每次 `npm publish` 都会重新挑战一次 2FA**。授权页面上有个
+   「Do not challenge npm publish from this IP for the next 5 minutes」勾选框，
+   一次连发多个包时务必勾上，否则每个包都要按一次指纹。
+
+   > npm 正在收紧「绕过 2FA 的 token」：2026 年 8 月起限制账号变更，2027 年 1 月起限制直接发布。
+   > 所以别图省事去建 automation token，那条路以后会被关掉。
 3. **⚠️ registry 陷阱（本机必看）**：这台机器的 `~/.npmrc` 指向内网 Verdaccio：
 
    ```
@@ -95,7 +116,7 @@ git count-objects -vH                    # 看 size-pack
 
 ## 1. 版本号与依赖联动
 
-这是多包发布唯一容易出错的地方：core 升了版本，四个封装里 `"jsonlens": "^0.1.0"` 的范围也要跟上，
+这是多包发布唯一容易出错的地方：core 升了版本，四个封装里 `"@fagao-ai/jsonlens": "^0.1.0"` 的范围也要跟上，
 **否则用户装到的封装会锁死在旧 core 上**（`^0.1.0` 允许 0.1.x，所以升 patch 不用改；
 升到 `0.2.0` 就必须改，因为 `^0.1.0` 不覆盖 `0.2.0`）。
 
@@ -103,10 +124,10 @@ git count-objects -vH                    # 看 size-pack
 
 ```bash
 # 升 core 到 0.1.1（同时改 package.json 和打 git tag）
-npm version patch -w jsonlens
+npm version patch -w @fagao-ai/jsonlens
 # 四个封装一起升，并把对 core 的依赖改成新的范围
-npm version patch -w jsonlens-react -w jsonlens-vue -w jsonlens-element -w jsonlens-svelte
-npm pkg set 'dependencies.jsonlens=^0.1.1' -w jsonlens-react -w jsonlens-vue -w jsonlens-element -w jsonlens-svelte
+npm version patch -w @fagao-ai/jsonlens-react -w @fagao-ai/jsonlens-vue -w @fagao-ai/jsonlens-element -w @fagao-ai/jsonlens-svelte
+npm pkg set 'dependencies.jsonlens=^0.1.1' -w @fagao-ai/jsonlens-react -w @fagao-ai/jsonlens-vue -w @fagao-ai/jsonlens-element -w @fagao-ai/jsonlens-svelte
 ```
 
 推荐用 [changesets](https://github.com/changesets/changesets)（发了两次以上就会想要它）：
@@ -126,11 +147,11 @@ npx changeset publish    # 按顺序发，已发过的跳过
 npm run build            # core + 四个封装，产物进各自的 dist/
 npm run pack:check       # 5 个 tarball 自检：README / LICENSE / dist / wasm / types
 
-npm publish -w jsonlens
-npm publish -w jsonlens-react
-npm publish -w jsonlens-vue
-npm publish -w jsonlens-element
-npm publish -w jsonlens-svelte
+npm publish -w @fagao-ai/jsonlens
+npm publish -w @fagao-ai/jsonlens-react
+npm publish -w @fagao-ai/jsonlens-vue
+npm publish -w @fagao-ai/jsonlens-element
+npm publish -w @fagao-ai/jsonlens-svelte
 ```
 
 `-w` 会把 `prepublishOnly` 里的构建跑一遍（core 跑 `vite build`，封装跑各自的
@@ -144,14 +165,14 @@ npm 在发布时要校验 `dependencies` 里每个包是否已存在于 registry
 ## 3. 发完自检
 
 ```bash
-npm view jsonlens version dist.tarball
-npm view jsonlens dist.unpackedSize
+npm view @fagao-ai/jsonlens version dist.tarball
+npm view @fagao-ai/jsonlens dist.unpackedSize
 
 # 最靠谱的一步：装到临时目录，跑一遍
 mkdir /tmp/fresh && cd /tmp/fresh && npm init -y
-npm i jsonlens jsonlens-react react react-dom
-node -e "console.log(Object.keys(require('jsonlens-react')))"     # CJS 产物
-node --input-type=module -e "import('jsonlens-react').then(m => console.log(Object.keys(m)))"  # ESM
+npm i @fagao-ai/jsonlens @fagao-ai/jsonlens-react react react-dom
+node -e "console.log(Object.keys(require('@fagao-ai/jsonlens-react')))"     # CJS 产物
+node --input-type=module -e "import('@fagao-ai/jsonlens-react').then(m => console.log(Object.keys(m)))"  # ESM
 ls node_modules/jsonlens/dist/*.wasm                          # wasm 必须在
 ```
 
@@ -176,15 +197,15 @@ ls node_modules/jsonlens/dist/*.wasm                          # wasm 必须在
 | `EPUBLISHCONFLICT` | 该版本已存在，**不能覆盖**，只能升版本重发 |
 | `404` 且发生在发布时 | 依赖的包还没发（core 没先发） |
 | 装下来 404 / wasm 加载失败 | `files` 字段漏了 wasm，或用户没显式传 `wasmUrl`（见 README 第 2 节） |
-| 用户 import 后没样式 | 必须 `import 'jsonlens-react/style.css'`（lib 模式的 CSS 抽离） |
+| 用户 import 后没样式 | 必须 `import '@fagao-ai/jsonlens-react/style.css'`（lib 模式的 CSS 抽离） |
 
 ---
 
 ## 5. 预发布与回滚
 
 ```bash
-# 预发布版本：发到 next 标签，用户 npm i jsonlens@next 才装到
-npm publish -w jsonlens --tag next        # 版本号要写成 0.2.0-beta.0 之类
+# 预发布版本：发到 next 标签，用户 npm i @fagao-ai/jsonlens@next 才装到
+npm publish -w @fagao-ai/jsonlens --tag next        # 版本号要写成 0.2.0-beta.0 之类
 
 # 把 latest 指回旧版本（不需要重新发布）
 npm dist-tag add jsonlens@0.1.0 latest
@@ -216,9 +237,9 @@ jobs:
         with: { node-version: 20, registry-url: 'https://registry.npmjs.org' }
       - run: npm ci
       - run: npm run build && npm run typecheck && npm run smoke
-      - run: npm publish -w jsonlens
+      - run: npm publish -w @fagao-ai/jsonlens
         env: { NODE_AUTH_TOKEN: '${{ secrets.NPM_TOKEN }}' }
-      - run: npm publish -w jsonlens-react --provenance
+      - run: npm publish -w @fagao-ai/jsonlens-react --provenance
         env: { NODE_AUTH_TOKEN: '${{ secrets.NPM_TOKEN }}' }
       # vue / element / svelte 同理
 ```
@@ -232,5 +253,5 @@ jobs:
 
 | 包 | 压缩后 | 解开后 | 主要内容 |
 | --- | ---: | ---: | --- |
-| `jsonlens` | 126 kB | 343 kB | 205 kB 是 `tree-sitter.wasm` 运行时（压缩后约 40 kB） |
+| `@fagao-ai/jsonlens` | 126 kB | 343 kB | 205 kB 是 `tree-sitter.wasm` 运行时（压缩后约 40 kB） |
 | 四个封装 | 6–8 kB | 16 kB | 薄壳 + 一份 style.css 拷贝 |

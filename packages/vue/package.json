@@ -1,7 +1,7 @@
 {
-  "name": "jsonlens-vue",
+  "name": "@fagao-ai/jsonlens-vue",
   "version": "0.1.0",
-  "description": "jsonlens-vue —— JsonExplorer Vue 3 组件",
+  "description": "@fagao-ai/jsonlens-vue —— JsonExplorer Vue 3 组件",
   "author": "JSONLens contributors",
   "license": "Apache-2.0",
   "repository": {
@@ -37,7 +37,7 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs vue"
   },
   "dependencies": {
-    "jsonlens": "^0.1.0"
+    "@fagao-ai/jsonlens": "^0.1.0"
   },
   "peerDependencies": {
     "vue": ">=3.0.0"

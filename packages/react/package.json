@@ -1,7 +1,7 @@
 {
-  "name": "jsonlens-react",
+  "name": "@fagao-ai/jsonlens-react",
   "version": "0.1.0",
-  "description": "jsonlens-react —— JsonExplorer React 组件",
+  "description": "@fagao-ai/jsonlens-react —— JsonExplorer React 组件",
   "author": "JSONLens contributors",
   "license": "Apache-2.0",
   "repository": {
@@ -37,7 +37,7 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs react"
   },
   "dependencies": {
-    "jsonlens": "^0.1.0"
+    "@fagao-ai/jsonlens": "^0.1.0"
   },
   "peerDependencies": {
     "react": ">=17"

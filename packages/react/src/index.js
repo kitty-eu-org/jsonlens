@@ -13,8 +13,8 @@
  *      否则会不停销毁重建。
  */
 import { createElement, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { createExplorer } from 'jsonlens';
-import 'jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
+import '@fagao-ai/jsonlens/style.css';
 
 const HOST_STYLE = { width: '100%', height: '100%', minHeight: 0 };
 

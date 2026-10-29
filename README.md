@@ -2,10 +2,10 @@
 
 **English** | [简体中文](./README.zh-CN.md)
 
-[![npm version](https://img.shields.io/npm/v/jsonlens.svg)](https://www.npmjs.com/package/jsonlens)
-[![npm downloads](https://img.shields.io/npm/dm/jsonlens.svg)](https://www.npmjs.com/package/jsonlens)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/jsonlens.svg)](https://bundlephobia.com/package/jsonlens)
-[![license](https://img.shields.io/npm/l/jsonlens.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@fagao-ai/jsonlens.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens)
+[![npm downloads](https://img.shields.io/npm/dm/@fagao-ai/jsonlens.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@fagao-ai/jsonlens.svg)](https://bundlephobia.com/package/@fagao-ai/jsonlens)
+[![license](https://img.shields.io/npm/l/@fagao-ai/jsonlens.svg)](./LICENSE)
 [![stars](https://img.shields.io/github/stars/kitty-eu-org/jsonlens.svg)](https://github.com/kitty-eu-org/jsonlens)
 
 A JSON viewer for documents that are too large to render directly.
@@ -25,16 +25,16 @@ A JSON viewer for documents that are too large to render directly.
 
 | Package | Description |
 | --- | --- |
-| [`jsonlens`](packages/core) | Core viewer and engine layer. Zero dependencies. |
-| [`jsonlens-react`](packages/react) | `<JsonExplorer value={text} />` |
-| [`jsonlens-vue`](packages/vue) | `<JsonExplorer :value="text" />` |
-| [`jsonlens-svelte`](packages/svelte) | `use:jsonExplorer` action |
-| [`jsonlens-element`](packages/element) | `<json-explorer>` custom element |
+| [`@fagao-ai/jsonlens`](packages/core) | Core viewer and engine layer. Zero dependencies. |
+| [`@fagao-ai/jsonlens-react`](packages/react) | `<JsonExplorer value={text} />` |
+| [`@fagao-ai/jsonlens-vue`](packages/vue) | `<JsonExplorer :value="text" />` |
+| [`@fagao-ai/jsonlens-svelte`](packages/svelte) | `use:jsonExplorer` action |
+| [`@fagao-ai/jsonlens-element`](packages/element) | `<json-explorer>` custom element |
 
 ## Install
 
 ```bash
-npm install jsonlens
+npm install @fagao-ai/jsonlens
 ```
 
 `web-tree-sitter` is a regular dependency and is installed with it. The two `.wasm` files ship inside the package.
@@ -44,8 +44,8 @@ npm install jsonlens
 ### Vanilla JS
 
 ```js
-import 'jsonlens/style.css';
-import { createExplorer } from 'jsonlens';
+import '@fagao-ai/jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
 
 const viewer = createExplorer(document.getElementById('host'), {
   theme: 'light',
@@ -64,8 +64,8 @@ await viewer.load(jsonText, { title: 'data.json' });
 ### React
 
 ```jsx
-import 'jsonlens-react/style.css';
-import { JsonExplorer } from 'jsonlens-react';
+import '@fagao-ai/jsonlens-react/style.css';
+import { JsonExplorer } from '@fagao-ai/jsonlens-react';
 
 const ref = useRef(null);
 
@@ -86,8 +86,8 @@ const ref = useRef(null);
 
 ```vue
 <script setup>
-import 'jsonlens-vue/style.css';
-import { JsonExplorer } from 'jsonlens-vue';
+import '@fagao-ai/jsonlens-vue/style.css';
+import { JsonExplorer } from '@fagao-ai/jsonlens-vue';
 import { ref } from 'vue';
 
 const text = ref('');
@@ -102,8 +102,8 @@ const text = ref('');
 
 ```svelte
 <script>
-  import 'jsonlens-svelte/style.css';
-  import { jsonExplorer } from 'jsonlens-svelte';
+  import '@fagao-ai/jsonlens-svelte/style.css';
+  import { jsonExplorer } from '@fagao-ai/jsonlens-svelte';
 
   let text = '';
 </script>
@@ -120,7 +120,7 @@ const text = ref('');
 <json-explorer src="/data.json" theme="dark" expand-depth="2" style="height: 600px"></json-explorer>
 
 <script type="module">
-  import { JsonExplorerElement } from 'jsonlens-element';
+  import { JsonExplorerElement } from '@fagao-ai/jsonlens-element';
   JsonExplorerElement.wasmUrl = '/wasm/';
   document.addEventListener('select', (e) => console.log(e.detail));
 </script>
@@ -128,7 +128,7 @@ const text = ref('');
 
 ### Without a bundler
 
-Copy `jsonlens/dist/` (the whole directory, including both `.wasm` files and `style.css`) and `web-tree-sitter/tree-sitter.js` into a static folder, then map them with an import map:
+Copy `@fagao-ai/jsonlens/dist/` (the whole directory, including both `.wasm` files and `style.css`) and `web-tree-sitter/tree-sitter.js` into a static folder, then map them with an import map:
 
 ```html
 <link rel="stylesheet" href="/vendor/jsonlens/dist/style.css">
@@ -138,13 +138,13 @@ Copy `jsonlens/dist/` (the whole directory, including both `.wasm` files and `st
 {
   "imports": {
     "web-tree-sitter": "/vendor/web-tree-sitter/tree-sitter.js",
-    "jsonlens": "/vendor/jsonlens/dist/index.js"
+    "@fagao-ai/jsonlens": "/vendor/jsonlens/dist/index.js"
   }
 }
 </script>
 
 <script type="module">
-  import { createExplorer } from 'jsonlens';
+  import { createExplorer } from '@fagao-ai/jsonlens';
 
   const api = createExplorer('#host', { wasmUrl: '/vendor/jsonlens/dist/' });
   const res = await fetch('/data.json');
@@ -161,8 +161,8 @@ Two files are required: the runtime (`tree-sitter.wasm`) and the JSON grammar (`
 createExplorer(el, { wasmUrl: '/wasm/' });
 
 // 2. Explicit URLs. Recommended with a bundler.
-import runtime from 'jsonlens/tree-sitter.wasm?url';
-import language from 'jsonlens/tree-sitter-json.wasm?url';
+import runtime from '@fagao-ai/jsonlens/tree-sitter.wasm?url';
+import language from '@fagao-ai/jsonlens/tree-sitter-json.wasm?url';
 createExplorer(el, { wasmUrl: { runtime, language } });
 
 // 3. Omitted. Resolved relative to the module via import.meta.url.
@@ -174,7 +174,7 @@ Option 3 only works when the module is served as-is. Once Vite or webpack inline
 Note that Vite's library mode extracts CSS out of the JS bundle, so the stylesheet is a separate import:
 
 ```js
-import 'jsonlens/style.css';
+import '@fagao-ai/jsonlens/style.css';
 ```
 
 ## API
@@ -250,7 +250,7 @@ api.on('error', (err) => console.warn('wasm failed to load:', err.message));
 
 ## Engines
 
-`jsonlens/engines` exports the parts without any UI, for building a custom viewer.
+`@fagao-ai/jsonlens/engines` exports the parts without any UI, for building a custom viewer.
 
 | Export | Description |
 | --- | --- |

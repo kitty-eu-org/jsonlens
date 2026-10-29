@@ -1,7 +1,7 @@
 {
-  "name": "jsonlens-element",
+  "name": "@fagao-ai/jsonlens-element",
   "version": "0.1.0",
-  "description": "jsonlens-element —— <json-explorer> 自定义元素，任何框架/原生可用",
+  "description": "@fagao-ai/jsonlens-element —— <json-explorer> 自定义元素，任何框架/原生可用",
   "author": "JSONLens contributors",
   "license": "Apache-2.0",
   "repository": {
@@ -37,6 +37,6 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs element"
   },
   "dependencies": {
-    "jsonlens": "^0.1.0"
+    "@fagao-ai/jsonlens": "^0.1.0"
   }
 }

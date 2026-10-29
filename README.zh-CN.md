@@ -2,10 +2,10 @@
 
 [English](./README.md) | **简体中文**
 
-[![npm version](https://img.shields.io/npm/v/jsonlens.svg)](https://www.npmjs.com/package/jsonlens)
-[![npm downloads](https://img.shields.io/npm/dm/jsonlens.svg)](https://www.npmjs.com/package/jsonlens)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/jsonlens.svg)](https://bundlephobia.com/package/jsonlens)
-[![license](https://img.shields.io/npm/l/jsonlens.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@fagao-ai/jsonlens.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens)
+[![npm downloads](https://img.shields.io/npm/dm/@fagao-ai/jsonlens.svg)](https://www.npmjs.com/package/@fagao-ai/jsonlens)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@fagao-ai/jsonlens.svg)](https://bundlephobia.com/package/@fagao-ai/jsonlens)
+[![license](https://img.shields.io/npm/l/@fagao-ai/jsonlens.svg)](./LICENSE)
 [![stars](https://img.shields.io/github/stars/kitty-eu-org/jsonlens.svg)](https://github.com/kitty-eu-org/jsonlens)
 
 一个用于打开超大 JSON 文件的浏览器端查看器。
@@ -25,16 +25,16 @@
 
 | 包 | 说明 |
 | --- | --- |
-| [`jsonlens`](packages/core) | 查看器本体和引擎层，零依赖 |
-| [`jsonlens-react`](packages/react) | `<JsonExplorer value={text} />` |
-| [`jsonlens-vue`](packages/vue) | `<JsonExplorer :value="text" />` |
-| [`jsonlens-svelte`](packages/svelte) | `use:jsonExplorer` action |
-| [`jsonlens-element`](packages/element) | `<json-explorer>` 自定义元素 |
+| [`@fagao-ai/jsonlens`](packages/core) | 查看器本体和引擎层，零依赖 |
+| [`@fagao-ai/jsonlens-react`](packages/react) | `<JsonExplorer value={text} />` |
+| [`@fagao-ai/jsonlens-vue`](packages/vue) | `<JsonExplorer :value="text" />` |
+| [`@fagao-ai/jsonlens-svelte`](packages/svelte) | `use:jsonExplorer` action |
+| [`@fagao-ai/jsonlens-element`](packages/element) | `<json-explorer>` 自定义元素 |
 
 ## 安装
 
 ```bash
-npm install jsonlens
+npm install @fagao-ai/jsonlens
 ```
 
 `web-tree-sitter` 是普通依赖，会一起装上。两个 `.wasm` 文件随包分发。
@@ -44,8 +44,8 @@ npm install jsonlens
 ### 原生 JS
 
 ```js
-import 'jsonlens/style.css';
-import { createExplorer } from 'jsonlens';
+import '@fagao-ai/jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
 
 const viewer = createExplorer(document.getElementById('host'), {
   theme: 'light',
@@ -64,8 +64,8 @@ await viewer.load(jsonText, { title: 'data.json' });
 ### React
 
 ```jsx
-import 'jsonlens-react/style.css';
-import { JsonExplorer } from 'jsonlens-react';
+import '@fagao-ai/jsonlens-react/style.css';
+import { JsonExplorer } from '@fagao-ai/jsonlens-react';
 
 const ref = useRef(null);
 
@@ -86,8 +86,8 @@ const ref = useRef(null);
 
 ```vue
 <script setup>
-import 'jsonlens-vue/style.css';
-import { JsonExplorer } from 'jsonlens-vue';
+import '@fagao-ai/jsonlens-vue/style.css';
+import { JsonExplorer } from '@fagao-ai/jsonlens-vue';
 import { ref } from 'vue';
 
 const text = ref('');
@@ -102,8 +102,8 @@ const text = ref('');
 
 ```svelte
 <script>
-  import 'jsonlens-svelte/style.css';
-  import { jsonExplorer } from 'jsonlens-svelte';
+  import '@fagao-ai/jsonlens-svelte/style.css';
+  import { jsonExplorer } from '@fagao-ai/jsonlens-svelte';
 
   let text = '';
 </script>
@@ -120,7 +120,7 @@ const text = ref('');
 <json-explorer src="/data.json" theme="dark" expand-depth="2" style="height: 600px"></json-explorer>
 
 <script type="module">
-  import { JsonExplorerElement } from 'jsonlens-element';
+  import { JsonExplorerElement } from '@fagao-ai/jsonlens-element';
   JsonExplorerElement.wasmUrl = '/wasm/';
   document.addEventListener('select', (e) => console.log(e.detail));
 </script>
@@ -130,7 +130,7 @@ const text = ref('');
 
 ### 没有构建工具
 
-把 `jsonlens/dist/`（整个目录，含两个 `.wasm` 和 `style.css`）和 `web-tree-sitter/tree-sitter.js` 拷进静态目录，用 import map 指过去：
+把 `@fagao-ai/jsonlens/dist/`（整个目录，含两个 `.wasm` 和 `style.css`）和 `web-tree-sitter/tree-sitter.js` 拷进静态目录，用 import map 指过去：
 
 ```html
 <link rel="stylesheet" href="/vendor/jsonlens/dist/style.css">
@@ -140,13 +140,13 @@ const text = ref('');
 {
   "imports": {
     "web-tree-sitter": "/vendor/web-tree-sitter/tree-sitter.js",
-    "jsonlens": "/vendor/jsonlens/dist/index.js"
+    "@fagao-ai/jsonlens": "/vendor/jsonlens/dist/index.js"
   }
 }
 </script>
 
 <script type="module">
-  import { createExplorer } from 'jsonlens';
+  import { createExplorer } from '@fagao-ai/jsonlens';
 
   const api = createExplorer('#host', { wasmUrl: '/vendor/jsonlens/dist/' });
   const res = await fetch('/data.json');
@@ -163,8 +163,8 @@ const text = ref('');
 createExplorer(el, { wasmUrl: '/wasm/' });
 
 // 2. 给两个完整 URL，配合打包器时推荐
-import runtime from 'jsonlens/tree-sitter.wasm?url';
-import language from 'jsonlens/tree-sitter-json.wasm?url';
+import runtime from '@fagao-ai/jsonlens/tree-sitter.wasm?url';
+import language from '@fagao-ai/jsonlens/tree-sitter-json.wasm?url';
 createExplorer(el, { wasmUrl: { runtime, language } });
 
 // 3. 不传，按 import.meta.url 从模块所在目录推断
@@ -176,7 +176,7 @@ createExplorer(el);
 另外 Vite 的 lib 模式会把 CSS 抽成独立文件，样式需要单独引入：
 
 ```js
-import 'jsonlens/style.css';
+import '@fagao-ai/jsonlens/style.css';
 ```
 
 ## API
@@ -252,7 +252,7 @@ api.on('error', (err) => console.warn('wasm 加载失败:', err.message));
 
 ## 引擎层
 
-`jsonlens/engines` 只导出零件，不建任何 DOM，用于自己搭 UI。
+`@fagao-ai/jsonlens/engines` 只导出零件，不建任何 DOM，用于自己搭 UI。
 
 | 导出 | 说明 |
 | --- | --- |

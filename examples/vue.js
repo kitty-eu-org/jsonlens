@@ -5,10 +5,10 @@
  * 一个纯 JS 包就能用。
  */
 import { createApp, h, ref, onMounted } from 'vue';
-import 'jsonlens/style.css';
-import { JsonExplorer } from 'jsonlens-vue';
-import runtimeWasm from 'jsonlens/tree-sitter.wasm?url';
-import languageWasm from 'jsonlens/tree-sitter-json.wasm?url';
+import '@fagao-ai/jsonlens/style.css';
+import { JsonExplorer } from '@fagao-ai/jsonlens-vue';
+import runtimeWasm from '@fagao-ai/jsonlens/tree-sitter.wasm?url';
+import languageWasm from '@fagao-ai/jsonlens/tree-sitter-json.wasm?url';
 import { hugeSample, smallSample } from './sample.js';
 import './shared.css';
 

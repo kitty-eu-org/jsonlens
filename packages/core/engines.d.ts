@@ -5,7 +5,7 @@
  * 分块懒解析（ChunkedDoc）、双轴窗口化高亮（Highlighter）、
  * JSON 视图（JsonView）、语法树视图（renderTree）和增量 diff。
  *
- * 想看现成的查看器，用 `jsonlens` 的 `createExplorer`。
+ * 想看现成的查看器，用 `@fagao-ai/jsonlens` 的 `createExplorer`。
  */
 
 /**

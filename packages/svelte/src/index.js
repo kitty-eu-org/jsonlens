@@ -6,14 +6,14 @@
  *
  * 用法：
  *   <script>
- *     import { jsonExplorer } from 'jsonlens-svelte';
+ *     import { jsonExplorer } from '@fagao-ai/jsonlens-svelte';
  *     let text = '';
  *   </script>
  *   <div use:jsonExplorer={{ value: text, theme: 'light', onSelect: (r) => console.log(r) }}
  *        style="height: 600px"></div>
  */
-import { createExplorer } from 'jsonlens';
-import 'jsonlens/style.css';
+import { createExplorer } from '@fagao-ai/jsonlens';
+import '@fagao-ai/jsonlens/style.css';
 
 export function jsonExplorer(node, params = {}) {
   const {

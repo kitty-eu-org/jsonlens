@@ -1,4 +1,4 @@
-import type { Explorer, ExplorerStats, LoadResult, Range } from 'jsonlens';
+import type { Explorer, ExplorerStats, LoadResult, Range } from '@fagao-ai/jsonlens';
 
 /** 元素派发的事件及载荷 */
 export interface JsonExplorerEventMap {
@@ -16,7 +16,7 @@ export interface JsonExplorerEventMap {
  * ```html
  * <json-explorer src="/data.json" theme="dark" style="height:600px"></json-explorer>
  * <script type="module">
- *   import { JsonExplorerElement } from 'jsonlens-element';
+ *   import { JsonExplorerElement } from '@fagao-ai/jsonlens-element';
  *   JsonExplorerElement.wasmUrl = '/wasm/';   // 不设也行，CDN 直连时默认值是对的
  * </script>
  * ```

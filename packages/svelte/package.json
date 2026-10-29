@@ -1,7 +1,7 @@
 {
-  "name": "jsonlens-svelte",
+  "name": "@fagao-ai/jsonlens-svelte",
   "version": "0.1.0",
-  "description": "jsonlens-svelte —— JsonExplorer 的 Svelte action",
+  "description": "@fagao-ai/jsonlens-svelte —— JsonExplorer 的 Svelte action",
   "author": "JSONLens contributors",
   "license": "Apache-2.0",
   "repository": {
@@ -37,6 +37,6 @@
     "prepublishOnly": "node ../../scripts/build-wrappers.mjs svelte"
   },
   "dependencies": {
-    "jsonlens": "^0.1.0"
+    "@fagao-ai/jsonlens": "^0.1.0"
   }
 }
