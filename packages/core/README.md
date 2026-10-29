@@ -125,4 +125,6 @@ hl.render(scrollTop, scrollLeft, clientHeight, false, clientWidth);
 
 ## License
 
-MIT
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors

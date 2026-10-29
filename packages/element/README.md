@@ -63,4 +63,6 @@ Listen with `addEventListener`, or with `el.on(type, fn)` which unwraps `detail`
 
 ## License
 
-MIT
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors

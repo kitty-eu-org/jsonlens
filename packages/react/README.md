@@ -73,4 +73,6 @@ The host element needs a height. `style` and `className` are forwarded to it.
 
 ## License
 
-MIT
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors

@@ -366,4 +366,8 @@ bench/                comparison against other libraries
 
 ## License
 
-[MIT](./LICENSE)
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors
+
+Includes a patent grant. Redistributions must retain the license and state any modified files.

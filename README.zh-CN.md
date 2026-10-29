@@ -368,4 +368,8 @@ bench/                与主流库的横向对比
 
 ## 许可证
 
-[MIT](./LICENSE)
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors
+
+含专利授权。再分发时需保留许可证副本，修改过的文件需要注明。

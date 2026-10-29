@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "jsonlens-svelte —— JsonExplorer 的 Svelte action",
   "author": "JSONLens contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kitty-eu-org/jsonlens.git",

@@ -69,4 +69,6 @@ viewer.value.expandTo(3);
 
 ## License
 
-MIT
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors

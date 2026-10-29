@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "description": "JSONLens：web-tree-sitter 驱动的超大 JSON 查看器（库 + playground + 多框架示例）",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kitty-eu-org/jsonlens.git"

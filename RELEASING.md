@@ -159,7 +159,7 @@ ls node_modules/jsonlens/dist/*.wasm                          # wasm 必须在
 
 | 检查项 | 为什么 |
 | --- | --- |
-| `README.md` / `LICENSE` | npm 页面会空白；MIT 要求随包分发许可证 |
+| `README.md` / `LICENSE` | npm 页面会空白；Apache 2.0 第 4 条要求随包分发许可证副本 |
 | `dist/index.js` + `index.cjs` | 双产物，ESM / CJS 各一份 |
 | `dist/*.wasm`（core） | 不带上就是「装上即 404」 |
 | `index.d.ts` | `types` 字段指向的文件必须真的在包里 |

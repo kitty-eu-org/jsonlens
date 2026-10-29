@@ -67,4 +67,6 @@ action.api.reveal({ start: 1024, end: 1088 });
 
 ## License
 
-MIT
+[Apache License 2.0](./LICENSE)
+
+Copyright 2026 JSONLens contributors
